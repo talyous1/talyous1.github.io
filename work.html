@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Work — Tala Alyousef</title>
+  <meta name="description" content="Case studies: an AI-assisted invoice pipeline, a financial tracking rebuild, a tuition mail merge, an accessible school website, a React check-in app, and a work dashboard.">
+  <script>document.documentElement.classList.add("js")</script>
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/theme-a.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="index.html">Tala Alyousef</a>
+      <nav aria-label="Main">
+        <ul class="nav-list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="work.html" aria-current="page">Work</a></li>
+          <li><a href="design.html">Design</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <div class="wrap">
+      <p class="meta label"><span>Case studies</span><span>2025–2026</span></p>
+      <h1>Work.</h1>
+      <p class="lede">Each project below starts with a real problem and ends with something that runs. Details about my workplace are kept general on purpose.</p>
+
+      <ul class="index" aria-label="Jump to a project">
+        <li><a href="#invoice-pipeline"><span class="label">1</span><span class="index-title">Invoice Processing Pipeline</span><span class="index-note">Apps Script · AI</span></a></li>
+        <li><a href="#financial-tracking"><span class="label">2</span><span class="index-title">Financial Tracking Rebuild</span><span class="index-note">Sheets · SUMIFS</span></a></li>
+        <li><a href="#mail-merge"><span class="label">3</span><span class="index-title">Tuition Mail Merge</span><span class="index-note">Apps Script</span></a></li>
+        <li><a href="#aaa-site"><span class="label">4</span><span class="index-title">Advanced American Academy</span><span class="index-note">HTML · CSS · WCAG</span></a></li>
+        <li><a href="#balance"><span class="label">5</span><span class="index-title">Balance</span><span class="index-note">React</span></a></li>
+        <li><a href="#work-dashboard"><span class="label">6</span><span class="index-title">Work Dashboard</span><span class="index-note">HTML · JavaScript</span></a></li>
+      </ul>
+    </div>
+
+    <div class="wrap">
+
+      <!-- ===== 1. Invoice pipeline ===== -->
+      <article class="project" id="invoice-pipeline">
+        <div class="project-head">
+          <h2>Invoice Processing Pipeline</h2>
+          <ul class="chips"><li>Networked scanner</li><li>Google Drive</li><li>Apps Script</li><li>AI model</li></ul>
+        </div>
+        <dl class="facts">
+          <div><dt>Problem</dt><dd>Paper invoices came off the scanner as unnamed PDFs that someone had to open, read, rename, and file by hand.</dd></div>
+          <div><dt>Approach</dt><dd>Treat the scanner folder as an inbox. Each new PDF is picked up automatically, read by an AI model, and filed without anyone touching it.</dd></div>
+          <div><dt>What I built</dt><dd>A pipeline connecting a networked scanner, Google Drive, Google Apps Script, and an AI model. The script sends each PDF to the model, gets back the vendor and date, renames the file, and moves it into that vendor's folder.</dd></div>
+          <div><dt>Result</dt><dd>Invoices are renamed and filed into per-vendor folders with no manual handling. <!-- TODO: add a real number here (invoices per month, minutes saved per week) --></dd></div>
+        </dl>
+      </article>
+
+      <!-- ===== 2. Financial tracking ===== -->
+      <article class="project" id="financial-tracking">
+        <div class="project-head">
+          <h2>Financial Tracking System Rebuild</h2>
+          <ul class="chips"><li>Google Sheets</li><li>SUMIFS</li><li>Data migration</li></ul>
+        </div>
+        <dl class="facts">
+          <div><dt>Problem</dt><dd>Transactions and cash flow lived in two disconnected processes, so reporting meant reconciling them by hand.</dd></div>
+          <div><dt>Approach</dt><dd>Combine both into one workbook where the numbers calculate themselves, then migrate the existing records into it.</dd></div>
+          <div><dt>What I built</dt><dd>A unified four-tab workbook with SUMIFS formulas that roll transactions up into cash flow automatically. During the migration I found and fixed category mismatches and a lookup collision.</dd></div>
+          <div><dt>Result</dt><dd>One system replaced two disconnected processes. <!-- TODO: add a real number (hours saved, errors caught) --></dd></div>
+        </dl>
+      </article>
+
+      <!-- ===== 3. Mail merge ===== -->
+      <article class="project" id="mail-merge">
+        <div class="project-head">
+          <h2>Tuition Mail Merge</h2>
+          <ul class="chips"><li>Google Sheets</li><li>Apps Script</li><li>Gmail drafts</li></ul>
+        </div>
+        <dl class="facts">
+          <div><dt>Problem</dt><dd>Every family needed a personal tuition notice showing their own payment schedule, and writing 60 of them by hand invites mistakes.</dd></div>
+          <div><dt>Approach</dt><dd>Generate every email from the spreadsheet, but never send automatically. A person reviews each one first.</dd></div>
+          <div><dt>What I built</dt><dd>A Sheets and Apps Script mail merge that produces 60 personalized notices, each with a payment table built from that family's data. The emails land in Drafts for review before sending.</dd></div>
+          <div><dt>Result</dt><dd>Sixty personalized notices generated from one sheet, checked in Drafts, then sent.</dd></div>
+        </dl>
+      </article>
+
+      <!-- ===== 4. Advanced American Academy ===== -->
+      <article class="project" id="aaa-site">
+        <div class="project-head">
+          <h2>Advanced American Academy</h2>
+          <ul class="chips"><li>HTML</li><li>CSS only</li><li>WCAG</li><li>GitHub Pages</li></ul>
+        </div>
+        <dl class="facts">
+          <div><dt>Problem</dt><dd>A school website has to work for every family, including people using screen readers, keyboards, or small phones.</dd></div>
+          <div><dt>Approach</dt><dd>Start from semantic HTML and accessibility requirements, and skip JavaScript entirely so nothing can break.</dd></div>
+          <div><dt>What I built</dt><dd>A four-page, responsive site in HTML and CSS, built to meet WCAG conformance and deployed on GitHub Pages. <!-- TODO: add live link and repo link --></dd></div>
+          <div><dt>Result</dt><dd>A fast, accessible site that is free to host and simple to maintain.</dd></div>
+        </dl>
+      </article>
+
+      <!-- ===== 5. Balance ===== -->
+      <article class="project" id="balance">
+        <div class="project-head">
+          <h2>Balance</h2>
+          <ul class="chips"><li>React</li><li>Adaptive goals</li><li>Saved history</li></ul>
+        </div>
+        <dl class="facts">
+          <div><dt>Problem</dt><dd>Generic goal lists don't react to how a person is actually doing.</dd></div>
+          <div><dt>Approach</dt><dd>Make a short check-in the center of the app, and let each result shape the next goals.</dd></div>
+          <div><dt>What I built</dt><dd>A React check-in app that scores seven wellbeing pillars, adapts goals to prior results, and stores a history of past sessions. <!-- TODO: add live link and repo link --></dd></div>
+          <div><dt>Result</dt><dd>A working app where progress over time is visible, because every session is saved.</dd></div>
+        </dl>
+      </article>
+
+      <!-- ===== 6. Work Dashboard ===== -->
+      <article class="project" id="work-dashboard">
+        <div class="project-head">
+          <h2>Work Dashboard</h2>
+          <ul class="chips"><li>HTML</li><li>CSS</li><li>JavaScript</li></ul>
+        </div>
+        <dl class="facts">
+          <div><dt>Problem</dt><dd>My workday spans many tools, and opening each one separately wastes time.</dd></div>
+          <div><dt>Approach</dt><dd>Make the browser's start page the hub: one file, no build step, nothing to install.</dd></div>
+          <div><dt>What I built</dt><dd>A single-file HTML start page with a live clock, searchable groups of links, and an embedded calendar. <!-- TODO: add live link and repo link --></dd></div>
+          <div><dt>Result</dt><dd>One page that replaces opening each tool separately, built without any framework.</dd></div>
+        </dl>
+      </article>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>© 2026 Tala Alyousef · <a href="https://github.com/talyous1" rel="noopener">GitHub</a> · <a href="https://www.linkedin.com/in/tala-alyousef/" rel="noopener">LinkedIn</a> · <a href="mailto:talaalyousef.06@gmail.com">Email</a></p>
+    </div>
+  </footer>
+  <script src="js/main.js"></script>
+</body>
+</html>

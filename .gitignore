@@ -1,0 +1,18 @@
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editors
+.vscode/
+.idea/
+
+# Notes and source files that shouldn't be published
+*.psd
+*.ai
+*.indd
+notes/
+*.log
+
+# Images held back from the public site (privacy or rights not confirmed)
+unused-private/

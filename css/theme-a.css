@@ -1,0 +1,68 @@
+/* Theme A — "Editorial", matched to the Google Site
+   Warm paper, near-black ink, and a sage-gray band, with Famely for headlines.
+   Colors were sampled from sites.google.com/view/talaalyousef:
+     paper #f8f6f3, ink #1c1c1c, band text #f9f9f9, sage band ~#6b7068 */
+
+@font-face {
+  font-family: "Famely";
+  src: url("../assets/fonts/Famely.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;   /* show fallback text right away, swap when the font loads */
+}
+@font-face {
+  font-family: "Famely";
+  src: url("../assets/fonts/Famely-Italic.otf") format("opentype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+:root {
+  --bg: #f8f6f3;
+  --surface: #ffffff;
+  --ink: #1c1c1c;        /* 15.6:1 on bg */
+  --muted: #55584f;      /* 6.9:1 on bg */
+  --line: #d6d2ca;
+  --accent: #565c53;     /* deep sage for links and buttons: 6.6:1 on bg */
+  --accent-ink: #f9f9f9;
+  --band: #6b7068;       /* the sage section color from the Google Site */
+  --band-ink: #f9f9f9;   /* 4.8:1 on band */
+  --focus: #1c1c1c;
+  --radius: 2px;
+
+  --font-display: "Famely", Georgia, "Times New Roman", serif;
+  --font-body: "Montserrat", "Segoe UI", system-ui, sans-serif;
+  --font-label: "Montserrat", "Segoe UI", system-ui, sans-serif;
+  --display-weight: 400;   /* Famely has one weight; don't fake bold */
+  --display-tracking: 0;
+}
+
+/* Famely is thin and decorative: keep it big, and keep body text in Montserrat. */
+h1, h2, .brand { font-weight: 400; }
+
+/* Famely is only for big display text (h1, h2, your name, big links).
+   Smaller headings use the body font so they stay easy to read. */
+h3, .card h3, .skills h3 {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 1.15rem;
+  line-height: 1.3;
+  letter-spacing: 0;
+}
+h1 em { font-style: italic; color: var(--accent); }
+
+/* Sage bands like the "Hey There!" section on the old site */
+.band { background: var(--band); color: var(--band-ink); }
+.band a { color: var(--band-ink); }
+.band .eyebrow, .band .meta { color: var(--band-ink); }
+/* Cards stay white inside a band, so they must reset to dark text */
+.band .card { color: var(--ink); }
+.band .card a { color: var(--accent); }
+.band .card .tag { color: var(--muted); }
+
+/* Famely is thin, so the site name needs extra size to stay readable */
+.brand { font-size: 1.9rem; line-height: 1; }
+
+/* Email and link text must stay legible, so contact links use the body font */
+.contact-list a { font-family: var(--font-body); font-weight: 500; }

@@ -1,0 +1,211 @@
+/* =========================================================
+   base.css — shared layout for every page.
+   It does NOT pick colors or fonts. Those come from the theme file
+   (theme-a.css), which defines the custom properties (--something)
+   used below. Swap the theme file to restyle the whole site.
+   ========================================================= */
+
+/* ---- Reset: small, sensible defaults ---- */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+img { max-width: 100%; height: auto; display: block; }
+a { color: var(--accent); text-underline-offset: 0.2em; }
+a:hover { text-decoration-thickness: 2px; }
+
+/* ---- Accessibility: visible focus on everything keyboard-reachable ---- */
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+.band :focus-visible { outline-color: var(--band-ink); }
+
+/* Skip link: hidden until a keyboard user tabs to it */
+.skip-link {
+  position: absolute; left: 1rem; top: -4rem;
+  background: var(--ink); color: var(--bg);
+  padding: 0.6rem 1rem; z-index: 100;
+}
+.skip-link:focus { top: 1rem; }
+
+/* ---- Layout helpers ---- */
+.wrap { width: min(100% - 2rem, 70rem); margin-inline: auto; }
+.section { padding-block: clamp(2.5rem, 7vw, 5rem); }
+
+/* ---- Typography ---- */
+h1, h2, h3 { font-family: var(--font-display); font-weight: var(--display-weight); line-height: 1.05; margin: 0 0 0.5em; }
+h1 { font-size: clamp(2.8rem, 12vw, 9rem); letter-spacing: var(--display-tracking); }
+h2 { font-size: clamp(2rem, 6vw, 3.6rem); }
+h3 { font-size: 1.6rem; }
+p { margin: 0 0 1em; max-width: 62ch; }
+.lede { font-size: 1.2rem; }
+.small { font-size: 0.9rem; color: var(--muted); }
+
+/* Small label text (uppercase, spaced) */
+.label {
+  font-family: var(--font-label);
+  font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.12em;
+}
+
+/* The thin strip above each page title: "Portfolio ........ Houston, TX" */
+.meta { display: flex; justify-content: space-between; gap: 1rem; padding-block: 1rem; color: var(--muted); }
+
+/* ---- Header & navigation ---- */
+.site-header { border-bottom: 1px solid var(--line); }
+.site-header .wrap {
+  display: flex; flex-wrap: wrap; align-items: center;
+  justify-content: space-between; gap: 0.5rem 1.5rem; padding-block: 1rem;
+}
+.brand { font-family: var(--font-display); font-size: 1.9rem; line-height: 1; text-decoration: none; color: var(--ink); }
+.nav-list { display: flex; flex-wrap: wrap; gap: 0.25rem 1.5rem; list-style: none; margin: 0; padding: 0; }
+.nav-list a { color: var(--ink); text-decoration: none; padding: 0.4rem 0; border-bottom: 2px solid transparent; font-size: 0.95rem; }
+.nav-list a:hover { border-bottom-color: var(--accent); }
+/* aria-current="page" marks the page you're on */
+.nav-list a[aria-current="page"] { border-bottom-color: var(--accent); font-weight: 600; }
+
+/* ---- Buttons ---- */
+.button {
+  display: inline-block; padding: 0.75rem 1.4rem;
+  background: var(--accent); color: var(--accent-ink);
+  border: 2px solid var(--accent); border-radius: var(--radius);
+  font: inherit; font-weight: 600; text-decoration: none; cursor: pointer;
+}
+.button:hover { background: transparent; color: var(--accent); }
+.button.secondary { background: transparent; color: var(--ink); border-color: var(--ink); }
+.button.secondary:hover { background: var(--ink); color: var(--bg); }
+.actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.5rem; }
+
+/* ---- Home: intro columns ---- */
+.intro { display: grid; gap: 1.5rem; padding-block: 2rem 1rem; }
+
+/* ---- Numbered index (Home) and jump list (Work) ---- */
+.index { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--ink); }
+.index a {
+  display: grid; grid-template-columns: 2.5rem 1fr auto; gap: 1rem; align-items: baseline;
+  padding: 1.1rem 0; border-bottom: 1px solid var(--ink);
+  color: var(--ink); text-decoration: none;
+}
+.index a:hover .index-title { text-decoration: underline; text-decoration-thickness: 2px; }
+.index-title { font-family: var(--font-display); font-size: clamp(2.1rem, 6vw, 3rem); line-height: 1.1; }
+.index-note { color: var(--muted); font-size: 0.9rem; text-align: right; }
+
+/* ---- Cards ---- */
+.grid { display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 1.5rem; }
+.card h3 { margin-bottom: 0.4rem; }
+.card p { margin-bottom: 0.5rem; }
+.tag { font-family: var(--font-label); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
+
+/* ---- Work: case studies ---- */
+.project { padding-block: clamp(2.5rem, 6vw, 4.5rem); border-top: 1px solid var(--ink); }
+.project-head { display: grid; gap: 1rem; margin-bottom: 1.5rem; }
+.project-head h2 { margin: 0; }
+.chips { list-style: none; margin: 0; padding: 0; font-size: 1.05rem; }
+.chips li::before { content: "• "; }
+.facts { display: grid; gap: 1.25rem; margin: 0; }
+.facts dt { font-family: var(--font-label); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 0.25rem; }
+.facts dd { margin: 0; max-width: 62ch; }
+
+/* ---- Design: filters and gallery ---- */
+.filters { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; }
+.filters button {
+  font: inherit; font-size: 0.9rem; cursor: pointer; padding: 0.4rem 1rem;
+  background: transparent; color: var(--ink); border: 2px solid var(--ink); border-radius: 999px;
+}
+.filters button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+
+/* CSS columns make a simple masonry layout: no JavaScript needed */
+.gallery { column-width: 16rem; column-gap: 1rem; margin: 0; padding: 0; list-style: none; }
+.gallery li { break-inside: avoid; margin-bottom: 1rem; }
+.gallery figure { margin: 0; }
+.gallery .thumb { display: block; width: 100%; padding: 0; border: 0; background: none; cursor: zoom-in; }
+.gallery img { width: 100%; }
+.gallery figcaption { font-size: 0.85rem; color: var(--muted); padding-top: 0.5rem; line-height: 1.4; }
+.gallery li[hidden] { display: none; }
+
+.feature { display: grid; gap: 2rem; align-items: center; }
+.feature img { width: 100%; }
+
+/* Lightbox: the built-in <dialog> element handles focus and the Esc key for us */
+dialog.lightbox { max-width: min(92vw, 60rem); max-height: 92vh; padding: 1rem; border: 0; background: var(--surface); color: var(--ink); }
+dialog.lightbox::backdrop { background: rgba(28, 28, 28, 0.8); }
+dialog.lightbox img { max-height: 75vh; width: auto; margin-inline: auto; }
+dialog.lightbox p { margin: 0.75rem 0; max-width: none; }
+
+/* ---- About: experience table and skills ---- */
+.timeline { width: 100%; border-collapse: collapse; }
+.timeline th, .timeline td { text-align: left; vertical-align: top; padding: 0.9rem 0.75rem 0.9rem 0; border-top: 1px solid var(--line); font-weight: 400; }
+.timeline th { color: var(--muted); width: 9rem; font-size: 0.9rem; }
+.timeline strong { font-weight: 600; }
+.skills { display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); }
+.skills h3 { font-size: 1.4rem; }
+.skills ul { margin: 0; padding-left: 1.1rem; }
+
+/* ---- Contact ---- */
+.contact-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--ink); }
+.contact-list li { display: grid; gap: 0.25rem; padding: 1.2rem 0; border-bottom: 1px solid var(--ink); }
+.contact-list a { font-family: var(--font-display); font-size: clamp(1.4rem, 5vw, 2.4rem); line-height: 1.2; overflow-wrap: anywhere; color: var(--ink); }
+
+/* ---- Sage bands ---- */
+.band-link { font-family: var(--font-display); font-size: clamp(2rem, 7vw, 4rem); text-decoration: none; display: inline-block; line-height: 1.1; }
+.band-link:hover { text-decoration: underline; }
+
+/* ---- Footer ---- */
+.site-footer { border-top: 1px solid var(--line); padding-block: 2rem; color: var(--muted); font-size: 0.9rem; }
+.site-footer p { max-width: none; margin: 0; }
+
+/* =========================================================
+   Motion. Everything in this block is wrapped in
+   "no-preference", so people who ask their device for less motion
+   see none of it (and the block below turns off the rest).
+   ========================================================= */
+@media (prefers-reduced-motion: no-preference) {
+  /* Hover/focus transitions: smooth color changes instead of instant jumps */
+  a, .button, .filters button, .nav-list a { transition: color 0.2s, background-color 0.2s, border-color 0.2s; }
+  .card { transition: transform 0.25s ease, box-shadow 0.25s ease; }
+  .card:hover { transform: translateY(-4px); box-shadow: 0 8px 18px rgba(28, 28, 28, 0.12); }
+  .index a { transition: padding-left 0.25s ease; }
+  .index a:hover { padding-left: 0.6rem; }
+
+  /* Gallery images zoom slightly on hover; the box clips the zoom */
+  .gallery .thumb { overflow: hidden; }
+  .gallery .thumb img { transition: transform 0.5s ease; }
+  .gallery .thumb:hover img { transform: scale(1.04); }
+
+  /* Page-load entrance: each top-of-page item fades up, one after another */
+  @keyframes rise { from { opacity: 0; transform: translateY(1.2rem); } to { opacity: 1; transform: none; } }
+  main > .wrap:first-child > * { animation: rise 0.8s ease both; }
+  main > .wrap:first-child > :nth-child(2) { animation-delay: 0.1s; }
+  main > .wrap:first-child > :nth-child(3) { animation-delay: 0.2s; }
+  main > .wrap:first-child > :nth-child(4) { animation-delay: 0.3s; }
+  main > .wrap:first-child > :nth-child(n+5) { animation-delay: 0.4s; }
+
+  /* Scroll reveal: js/main.js adds .reveal to blocks, then .is-visible when
+     they scroll into view. The "js" class only exists if JavaScript runs,
+     so with JavaScript off nothing is ever hidden. */
+  .js .reveal { opacity: 0; transform: translateY(1.5rem); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .js .reveal.is-visible { opacity: 1; transform: none; }
+
+  /* Image viewer fades in */
+  @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+  dialog.lightbox[open] { animation: fade 0.25s ease; }
+  dialog.lightbox[open]::backdrop { animation: fade 0.25s ease; }
+}
+
+/* ---- Respect "reduce motion" settings: turn off smooth scroll & animation ---- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+/* ---- Wider screens ---- */
+@media (min-width: 48rem) {
+  .intro { grid-template-columns: 1fr 1fr; gap: 3rem; }
+  .project-head { grid-template-columns: 2fr 1fr; align-items: end; }
+  .facts { grid-template-columns: 1fr 1fr; gap: 2rem 3rem; }
+  .feature { grid-template-columns: 3fr 2fr; }
+}
