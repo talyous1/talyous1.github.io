@@ -118,9 +118,11 @@ p { margin: 0 0 1em; max-width: 62ch; }
 }
 .filters button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
 
-/* CSS columns make a simple masonry layout: no JavaScript needed */
-.gallery { column-width: 16rem; column-gap: 1rem; margin: 0; padding: 0; list-style: none; }
-.gallery li { break-inside: avoid; margin-bottom: 1rem; }
+/* Rows run left to right. Each item grows in proportion to its shape (--r = width / height,
+   set on the item), so every row fills the width and related images sit side by side. */
+.gallery { display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-start; margin: 0; padding: 0; list-style: none; }
+.gallery::after { content: ""; flex-grow: 1000; }   /* keeps the last row from stretching */
+.gallery li { flex: calc(var(--r, 1) * 100) 1 calc(var(--r, 1) * 13rem); min-width: 0; }
 .gallery figure { margin: 0; }
 .gallery .thumb { display: block; width: 100%; padding: 0; border: 0; background: none; cursor: zoom-in; }
 .gallery img { width: 100%; }
