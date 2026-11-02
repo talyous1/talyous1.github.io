@@ -265,3 +265,9 @@ dialog.lightbox p { margin: 0.75rem 0; max-width: none; }
 /* Hide the normal arrow only while the custom cursor is running */
 html.has-custom-cursor, html.has-custom-cursor * { cursor: none !important; }
 html.has-custom-cursor :is(input, textarea, select) { cursor: text !important; }
+
+/* Compact list (Work page contents): plain body font and smaller rows,
+   so the big Famely titles stay for headings and the Home page. */
+.index-compact a { padding: 0.65rem 0; align-items: center; }
+.index-compact .index-title { font-family: var(--font-body); font-size: 1.05rem; font-weight: 600; line-height: 1.3; }
+.index-compact .index-note { font-size: 0.85rem; }
