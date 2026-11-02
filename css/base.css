@@ -308,17 +308,27 @@ html.has-custom-cursor :is(input, textarea, select) { cursor: text !important; }
   .about-hero .intro { grid-template-columns: 1fr; gap: 1rem; }
 }
 
-/* ---- Home: intro text and portrait side by side ---- */
-.home-hero-body { display: grid; gap: 1.5rem; padding-top: 1rem; }
-.home-hero-body .intro { padding-block: 0; grid-template-columns: 1fr; gap: 0; }
-.home-hero-body .actions { margin-top: 0; }
-.home-hero-body .portrait { width: min(100%, 15rem); }
+/* ---- Home hero: text on the left, portrait on the right ---- */
+.hero-grid { display: grid; gap: 1rem; padding-top: 0.5rem; }
+.hero-grid .lede { margin-bottom: 0; }
+.hero-grid .intro { padding-block: 0.5rem 0; grid-template-columns: 1fr; gap: 0; }
+.hero-grid .portrait { width: min(100%, 16rem); margin-block: 0.5rem; }
+.hero-grid .actions { margin-top: 0.25rem; }
 @media (min-width: 48rem) {
-  .home-hero-body {
-    grid-template-columns: 1fr 15rem; column-gap: 3rem; align-items: start;
-    grid-template-areas: "intro portrait" "actions portrait";
+  .hero-grid {
+    grid-template-columns: 1fr 18rem; column-gap: 3rem; row-gap: 0; align-items: start;
+    grid-template-areas: "title portrait" "lede portrait" "intro portrait" "actions portrait";
+    grid-template-rows: auto auto auto 1fr;
   }
-  .home-hero-body .intro { grid-area: intro; grid-template-columns: 1fr; }
-  .home-hero-body .portrait { grid-area: portrait; width: 100%; }
-  .home-hero-body .actions { grid-area: actions; }
+  /* the name is sized so it always fits the left column */
+  .hero-grid h1 { grid-area: title; font-size: clamp(3rem, 9vw, 9rem); margin-bottom: 0.25em; }
+  .hero-grid .lede { grid-area: lede; }
+  .hero-grid .intro { grid-area: intro; padding-top: 1.25rem; }
+  .hero-grid .actions { grid-area: actions; }
+  .hero-grid .portrait { grid-area: portrait; width: 100%; margin: 0.5rem 0 0; }
+}
+/* On large screens the portrait gets bigger so it matches the height of the text beside it */
+@media (min-width: 64rem) {
+  .hero-grid { grid-template-columns: 1fr 22rem; }
+  .hero-grid h1 { font-size: clamp(3rem, 10vw, 7.5rem); }
 }
