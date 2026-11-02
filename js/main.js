@@ -387,6 +387,46 @@ document.querySelectorAll('.band').forEach((band) => {
   vines.push(hanging, growing);
 });
 
+// A wavy vine that runs the whole width of the page along the top of the footer. It is built
+// from the real page width, so it reaches both edges at any screen size (and is rebuilt if the
+// window is resized).
+const footer = document.querySelector('.site-footer');
+if (footer) {
+  let footerVine = null;
+  const buildFooterVine = (alreadyDrawn) => {
+    footerVine?.remove();
+    const width = footer.clientWidth;
+    let d = 'M0 20';
+    for (let x = 0, up = true; x < width; x += 100, up = !up) {        // one gentle wave per 100px
+      d += `Q${x + 50} ${up ? 0 : 40} ${x + 100} 20`;
+    }
+    const vine = makeVine('art-divider', `0 0 ${width} 40`, d, Math.max(6, Math.round(width / 80)));
+    footer.prepend(vine.svg);
+    addLeaves(vine);
+    footerVine = vine.svg;
+    if (alreadyDrawn || prefersReducedMotion || !('IntersectionObserver' in window)) {
+      vine.svg.classList.add('is-drawn');
+    } else {
+      vine.svg.classList.add('vine-ready');
+      const footerObserver = new IntersectionObserver((entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          vine.svg.classList.add('is-drawn');
+          footerObserver.disconnect();
+        }
+      }, { threshold: 0.5 });
+      footerObserver.observe(vine.svg);
+    }
+  };
+  buildFooterVine(false);
+  let lastWidth = footer.clientWidth;
+  window.addEventListener('resize', () => {
+    if (footer.clientWidth !== lastWidth) {      // only rebuild when the width really changed
+      lastWidth = footer.clientWidth;
+      buildFooterVine(true);
+    }
+  });
+}
+
 // Add the leaves, then grow each vine the first time it scrolls into view (or show it already
 // grown if the visitor prefers reduced motion).
 vines.forEach((vine) => {

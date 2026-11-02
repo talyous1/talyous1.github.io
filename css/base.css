@@ -364,13 +364,18 @@ main { overflow-x: clip; }                         /* rings may poke past the ed
 
 /* Two small vines beside the Home portrait (--pw is the portrait width at each screen size) */
 .hero-grid { --pw: 18rem; }
-.art-hero { display: none; height: 11rem; width: auto; color: var(--accent); opacity: 0.6; z-index: 0; }
-.art-hero .vine-stem { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+.site-footer { position: relative; padding-top: 3.5rem; }
+.art-divider { left: 0; top: 0.5rem; width: 100%; height: 2.5rem; color: var(--accent); opacity: 0.5; }
+.art-divider .vine-stem { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+.art-divider .leaf { fill: currentColor; }
+
+.art-hero { display: none; height: 13.5rem; width: auto; color: var(--accent); opacity: 0.85; z-index: 0; }
+.art-hero .vine-stem { fill: none; stroke: currentColor; stroke-width: 3; stroke-linecap: round; }
 .art-hero .leaf { fill: currentColor; }
 @media (min-width: 48rem) {
   .art-hero { display: block; }
-  .art-hero-a { right: calc(var(--pw) - 1.25rem); bottom: 0.25rem; }
-  .art-hero-b { right: -1.75rem; top: 0.25rem; transform: scaleY(-1); }
+  .art-hero-a { right: calc(var(--pw) - 1.5rem); bottom: 0.25rem; }
+  .art-hero-b { right: calc(var(--pw) - 0.75rem); top: 0.25rem; transform: scale(-1, -1); }
 }
 @media (min-width: 64rem) { .hero-grid { --pw: 22rem; } }
 
