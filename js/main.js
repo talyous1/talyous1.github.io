@@ -364,7 +364,7 @@ function makeWiggleVine(band) {
 const vines = [];
 const tallVine = () => makeVine('', '0 0 160 360', 'M80 360C80 300 20 280 40 220S120 160 90 100S60 40 100 0', 7);
 
-// Two small vines flank the portrait on Home; arches echo the portrait frame on About.
+// Two vines overlap the portrait corners on Home; arches echo the portrait frame on About.
 const heroGrid = document.querySelector('.hero-grid');
 if (heroGrid) {
   const lowerLeft = makeVine('art-hero art-hero-a', '0 0 160 360', 'M80 360C80 300 20 280 40 220S120 160 90 100S60 40 100 0', 5);

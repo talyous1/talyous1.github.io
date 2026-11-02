@@ -369,13 +369,14 @@ main { overflow-x: clip; }                         /* rings may poke past the ed
 .art-divider .vine-stem { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
 .art-divider .leaf { fill: currentColor; }
 
-.art-hero { display: none; height: 13.5rem; width: auto; color: var(--accent); opacity: 0.85; z-index: 0; }
+.art-hero { display: none; height: 13.5rem; width: auto; color: var(--accent); opacity: 0.95; z-index: 2; }
 .art-hero .vine-stem { fill: none; stroke: currentColor; stroke-width: 3; stroke-linecap: round; }
 .art-hero .leaf { fill: currentColor; }
 @media (min-width: 48rem) {
   .art-hero { display: block; }
-  .art-hero-a { right: calc(var(--pw) - 1.5rem); bottom: 0.25rem; }
-  .art-hero-b { right: calc(var(--pw) - 0.75rem); top: 0.25rem; transform: scale(-1, -1); }
+  /* each vine straddles the portrait edge: half on the photo, half on the page (vine is 6rem wide) */
+  .art-hero-a { right: calc(var(--pw) - 3rem); top: calc(0.5rem + var(--pw) * 1.25 - 12rem); }   /* bottom-left corner */
+  .art-hero-b { right: -3rem; top: -1rem; transform: scale(-1, -1); }                              /* top-right corner */
 }
 @media (min-width: 64rem) { .hero-grid { --pw: 22rem; } }
 
