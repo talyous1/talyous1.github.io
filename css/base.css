@@ -294,3 +294,16 @@ html.has-custom-cursor :is(input, textarea, select) { cursor: text !important; }
 .to-top.is-visible { opacity: 1; visibility: visible; transform: none; }
 .to-top:hover { background: var(--accent); }
 @media (prefers-reduced-motion: reduce) { .to-top { transition: none; transform: none; } }
+
+/* ---- About: portrait beside the intro ---- */
+.about-hero { display: grid; gap: 1.5rem; padding-block: 1rem 0; align-items: start; }
+.about-hero .intro { padding-block: 0; }
+.portrait {
+  width: min(100%, 17rem); aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 22%;
+  border-radius: 999px 999px var(--radius) var(--radius);   /* arched top */
+  background: var(--surface);
+}
+@media (min-width: 48rem) {
+  .about-hero { grid-template-columns: 17rem 1fr; gap: 3rem; }
+  .about-hero .intro { grid-template-columns: 1fr; gap: 1rem; }
+}
