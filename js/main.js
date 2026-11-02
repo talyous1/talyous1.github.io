@@ -4,7 +4,7 @@
      A. A typewriter effect for the hero name on Home
      B. A custom cursor (dot + trailing ring) for people with a mouse
      C. A back-to-top button that appears as you scroll
-     D. Decorative art: slowly turning rings behind the portraits, and vines that grow in
+     D. Decorative art: arches around the About portrait, and vines that grow in
      0. Fade-in as sections scroll into view
      1. Filter buttons on the Design page (All / Brands / Posters / ...)
      2. A pop-up viewer ("lightbox") for the gallery images
@@ -213,7 +213,7 @@ if (lightbox) {
   });
 }
 
-// ---------- D. Decorative art: turning rings and growing vines ----------
+// ---------- D. Decorative art: portrait-shaped arches and growing vines ----------
 // Pure decoration, so it is hidden from screen readers (aria-hidden) and added here instead of
 // cluttering every page's HTML. Without JavaScript the pages simply have no decoration.
 // The animating itself is done in CSS (base.css, "Decorative art"), which also stops it for
@@ -227,16 +227,18 @@ function svgEl(name, attributes) {
   return el;
 }
 
-// Three dashed circles, each with a small dot riding on it. CSS slowly spins them.
-function makeRings(sideClass) {
+// Three dashed arches that echo the arched top of the portrait frame, each a little bigger than the
+// last. CSS slowly marches the dashes along them. The portrait is 200 wide by 250 tall in these units.
+function makeArches(sideClass) {
   const svg = svgEl('svg', {
-    class: `art art-rings ${sideClass}`, viewBox: '-170 -170 340 340', 'aria-hidden': 'true', focusable: 'false',
+    class: `art art-arches ${sideClass}`, viewBox: '-40 -40 280 330', 'aria-hidden': 'true', focusable: 'false',
   });
-  [[100, '2 9'], [128, '14 10'], [158, '1 14']].forEach(([radius, dashes], index) => {
-    const ring = svgEl('g', { class: `ring ring-${index + 1}` });
-    ring.append(svgEl('circle', { r: radius, 'stroke-dasharray': dashes }));
-    ring.append(svgEl('circle', { class: 'ring-dot', cx: radius, cy: 0, r: 4 }));
-    svg.append(ring);
+  [14, 28, 42].forEach((gap, index) => {
+    const radius = 100 + gap;
+    svg.append(svgEl('path', {
+      class: `arch arch-${index + 1}`,
+      d: `M${-gap} 250V100A${radius} ${radius} 0 0 1 ${200 + gap} 100V250`,
+    }));
   });
   return svg;
 }
@@ -270,12 +272,27 @@ function addLeaves({ svg, stem, leafCount }) {
 const vines = [];
 const tallVine = () => makeVine('', '0 0 160 360', 'M80 360C80 300 20 280 40 220S120 160 90 100S60 40 100 0', 7);
 
-// Rings behind the portrait on Home (right side) and About (left side).
-document.querySelector('.hero-grid')?.append(makeRings('art-right'));
-document.querySelector('.about-hero')?.append(makeRings('art-left'));
+// Two small vines flank the portrait on Home; arches echo the portrait frame on About.
+const heroGrid = document.querySelector('.hero-grid');
+if (heroGrid) {
+  const lowerLeft = makeVine('art-hero art-hero-a', '0 0 160 360', 'M80 360C80 300 20 280 40 220S120 160 90 100S60 40 100 0', 5);
+  const upperRight = makeVine('art-hero art-hero-b', '0 0 160 360', 'M80 360C80 300 20 280 40 220S120 160 90 100S60 40 100 0', 5);
+  heroGrid.append(lowerLeft.svg, upperRight.svg);
+  vines.push(lowerLeft, upperRight);
+}
+document.querySelector('.about-hero')?.append(makeArches('art-left'));
 
-// Vines in the corners of every sage band.
+// Vines in every sage band. The band holding the project cards gets one big vine behind the
+// cards that sways as you scroll; the other bands get a vine in each corner.
+const wigglers = [];
 document.querySelectorAll('.band').forEach((band) => {
+  if (band.querySelector('.card')) {
+    const behind = makeVine('art-wiggle', '0 0 160 360', 'M80 360C80 300 20 280 40 220S120 160 90 100S60 40 100 0', 10);
+    band.prepend(behind.svg);
+    vines.push(behind);
+    wigglers.push(behind.svg);
+    return;
+  }
   const hanging = tallVine(); hanging.svg.classList.add('art-top-left');
   const growing = tallVine(); growing.svg.classList.add('art-bottom-right');
   band.append(hanging.svg, growing.svg);
@@ -311,4 +328,23 @@ if (!prefersReducedMotion && 'IntersectionObserver' in window) {
     });
   }, { threshold: 0.25 });
   vines.forEach((vine) => vineObserver.observe(vine.svg));
+}
+
+// Sway the "behind the cards" vine as the page scrolls: its tilt follows the scroll position
+// through two overlapping sine waves, which looks like a gentle wiggle rather than a spin.
+// (Skipped for reduced motion. requestAnimationFrame keeps it to one update per screen refresh.)
+if (wigglers.length && !prefersReducedMotion) {
+  let wiggleTicking = false;
+  const updateWiggle = () => {
+    const y = window.scrollY;
+    const tilt = Math.sin(y / 85) * 5 + Math.sin(y / 37) * 1.5;   // degrees, roughly -6.5 to 6.5
+    wigglers.forEach((svg) => svg.style.setProperty('--wiggle', tilt.toFixed(2)));
+    wiggleTicking = false;
+  };
+  window.addEventListener('scroll', () => {
+    if (wiggleTicking) return;
+    wiggleTicking = true;
+    requestAnimationFrame(updateWiggle);
+  }, { passive: true });
+  updateWiggle();
 }

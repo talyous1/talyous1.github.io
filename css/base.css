@@ -343,31 +343,49 @@ main { overflow-x: clip; }                         /* rings may poke past the ed
 .band { overflow: hidden; }
 .band > .wrap { position: relative; z-index: 1; }
 
-.art-rings { display: none; width: 28rem; max-width: none; opacity: 0.7; z-index: 0; }
-.art-rings circle { fill: none; stroke: currentColor; stroke-width: 2; }
-.art-rings .ring-dot { fill: currentColor; stroke: none; }
-.art-rings .ring { transform-box: fill-box; transform-origin: center; }
+/* Arches that echo the About portrait's arched frame; the portrait is 17rem wide, so the 280-unit-wide
+   drawing is 1.4 times that, and it is nudged so the middle arch hugs the frame. */
+.art-arches { display: none; width: 23.8rem; max-width: none; z-index: 0; }
+.art-arches .arch { fill: none; stroke: var(--accent); stroke-width: 1.5; }
+.art-arches .arch-1 { opacity: 0.55; stroke-dasharray: 3 7; }
+.art-arches .arch-2 { opacity: 0.4; stroke-dasharray: 10 8; }
+.art-arches .arch-3 { opacity: 0.28; stroke-dasharray: 2 12; }
 @media (min-width: 48rem) {
-  .art-rings { display: block; }
-  .art-rings.art-right { right: -5rem; top: -2.25rem; }
-  .art-rings.art-left { width: 24rem; left: -3.5rem; top: -1.4rem; }
+  .art-arches { display: block; }
+  .art-arches.art-left { left: -3.4rem; top: -3.4rem; }
 }
-@media (min-width: 64rem) { .art-rings.art-right { width: 34rem; right: -6rem; top: -3rem; } }
 
-.art-vine { height: min(90%, 26rem); width: auto; opacity: 0.22; color: var(--band-ink); }
+.art-vine { height: min(90%, 26rem); width: auto; opacity: 0.13; color: var(--band-ink); }
 .art-vine .vine-stem { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
 .art-vine .leaf { fill: currentColor; }
 .art-top-left { top: 0; left: 2%; transform: scaleY(-1); }
 .art-bottom-right { bottom: 0; right: 2%; }
 @media (max-width: 40rem) { .art-top-left, .art-bottom-right { display: none; } }
 
+/* Two small vines beside the Home portrait (--pw is the portrait width at each screen size) */
+.hero-grid { --pw: 18rem; }
+.art-hero { display: none; height: 11rem; width: auto; color: var(--accent); opacity: 0.6; z-index: 0; }
+.art-hero .vine-stem { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+.art-hero .leaf { fill: currentColor; }
+@media (min-width: 48rem) {
+  .art-hero { display: block; }
+  .art-hero-a { right: calc(var(--pw) - 1.25rem); bottom: 0.25rem; }
+  .art-hero-b { right: -1.75rem; top: 0.25rem; transform: scaleY(-1); }
+}
+@media (min-width: 64rem) { .hero-grid { --pw: 22rem; } }
+
+/* The vine behind the project cards: bigger, sways with scroll (--wiggle is set by main.js) */
+.art-wiggle { height: 125%; width: auto; top: -12%; right: 14%; opacity: 0.18; transform-origin: 50% 100%; transform: rotate(calc(var(--wiggle, 0) * 1deg)); z-index: 0; color: var(--band-ink); }
+.art-wiggle .vine-stem { fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; }
+.art-wiggle .leaf { fill: currentColor; }
+
 .art-divider { position: static; display: block; grid-column: 1 / -1; width: 100%; height: 2.5rem; margin-bottom: 0.5rem; color: var(--accent); opacity: 0.45; }
 
 @media (prefers-reduced-motion: no-preference) {
-  .art-rings .ring-1 { animation: ring-spin 90s linear infinite; }
-  .art-rings .ring-2 { animation: ring-spin 140s linear infinite reverse; }
-  .art-rings .ring-3 { animation: ring-spin 200s linear infinite; }
-  @keyframes ring-spin { to { transform: rotate(360deg); } }
+  .art-arches .arch-1 { animation: arch-march 40s linear infinite; }
+  .art-arches .arch-2 { animation: arch-march 60s linear infinite reverse; }
+  .art-arches .arch-3 { animation: arch-march 80s linear infinite; }
+  @keyframes arch-march { to { stroke-dashoffset: -360; } }
 
   /* Vines start undrawn, then the stem draws itself and the leaves pop out along it. */
   .vine-ready .vine-stem { stroke-dasharray: var(--len); stroke-dashoffset: var(--len); }
