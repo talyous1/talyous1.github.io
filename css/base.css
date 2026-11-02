@@ -332,3 +332,8 @@ html.has-custom-cursor :is(input, textarea, select) { cursor: text !important; }
   .hero-grid { grid-template-columns: 1fr 22rem; }
   .hero-grid h1 { font-size: clamp(3rem, 10vw, 7.5rem); }
 }
+
+/* About: a row of casual photos under the intro */
+.about-photos { list-style: none; margin: 2rem 0 0; padding: 0; display: grid; gap: 0.75rem; grid-template-columns: repeat(3, 1fr); }
+.about-photos img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 25%; display: block; border-radius: 0.25rem; }
+@media (max-width: 36rem) { .about-photos { grid-template-columns: 1fr 1fr; } .about-photos li:last-child { display: none; } }
