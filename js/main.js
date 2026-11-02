@@ -269,6 +269,81 @@ function addLeaves({ svg, stem, leafCount }) {
   }
 }
 
+// A vine that runs corner to corner behind the project cards (top left to bottom right). Its
+// shape is redrawn from a wave that shifts as you scroll, so the vine itself wiggles while the
+// whole drawing stays put. We redraw it ourselves (instead of using CSS) because the stem's shape
+// is what changes, and the leaves have to follow it.
+function makeWiggleVine(band) {
+  const svg = svgEl('svg', { class: 'art art-wiggle', 'aria-hidden': 'true', focusable: 'false' });
+  const stem = svgEl('path', { class: 'vine-stem' });
+  svg.append(stem);
+  const leafCount = 16;
+  const holders = [];
+  for (let i = 0; i < leafCount; i += 1) {
+    const holder = svgEl('g', {});
+    holder.append(svgEl('path', { class: 'leaf', d: 'M0 0C5-9 17-9 24 0C17 9 5 9 0 0Z' }));
+    svg.append(holder);
+    holders.push(holder);
+  }
+  band.prepend(svg);
+
+  let width = 0;
+  let height = 0;
+  const measure = () => {
+    width = band.clientWidth;
+    height = band.clientHeight;
+    svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+  };
+
+  // Redraw the stem for a given wave position ("phase"), then hang the leaves along it.
+  const draw = (phase) => {
+    const steps = 28;
+    const diagonal = Math.hypot(width, height);
+    const nx = -height / diagonal;                   // a direction at right angles to the diagonal
+    const ny = width / diagonal;
+    const points = [];
+    for (let i = 0; i <= steps; i += 1) {
+      const t = i / steps;
+      // Walk from just outside the top-left corner to just outside the bottom-right one,
+      // pushing each point sideways by a wave. The second, faster wave adds some wobble.
+      const push = Math.sin(t * Math.PI * 4 + phase) * 38 + Math.sin(t * Math.PI * 9 - phase * 1.6) * 9;
+      points.push([-30 + (width + 60) * t + nx * push, -30 + (height + 60) * t + ny * push]);
+    }
+    // Join the points with smooth curves (each point is a curve's control point; the curve
+    // passes through the middle between neighbours).
+    let d = `M${points[0][0].toFixed(1)} ${points[0][1].toFixed(1)}`;
+    for (let i = 1; i < points.length - 1; i += 1) {
+      const midX = (points[i][0] + points[i + 1][0]) / 2;
+      const midY = (points[i][1] + points[i + 1][1]) / 2;
+      d += `Q${points[i][0].toFixed(1)} ${points[i][1].toFixed(1)} ${midX.toFixed(1)} ${midY.toFixed(1)}`;
+    }
+    stem.setAttribute('d', d);
+
+    const length = stem.getTotalLength();
+    holders.forEach((holder, i) => {
+      const fraction = (i + 1) / (leafCount + 1);
+      const here = stem.getPointAtLength(length * fraction);
+      const ahead = stem.getPointAtLength(length * fraction + 1);
+      const heading = Math.atan2(ahead.y - here.y, ahead.x - here.x) * 180 / Math.PI;
+      const tilt = i % 2 ? -50 : 50;
+      holder.setAttribute('transform', `translate(${here.x.toFixed(1)} ${here.y.toFixed(1)}) rotate(${(heading + tilt).toFixed(1)}) scale(1.4)`);
+    });
+  };
+
+  measure();
+  draw(0);
+  window.addEventListener('resize', () => { measure(); draw(window.scrollY * 0.012); });
+  if (!prefersReducedMotion) {
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (ticking) return;                           // redraw once per screen refresh
+      ticking = true;
+      requestAnimationFrame(() => { draw(window.scrollY * 0.012); ticking = false; });
+    }, { passive: true });
+    draw(window.scrollY * 0.012);
+  }
+}
+
 const vines = [];
 const tallVine = () => makeVine('', '0 0 160 360', 'M80 360C80 300 20 280 40 220S120 160 90 100S60 40 100 0', 7);
 
@@ -282,15 +357,11 @@ if (heroGrid) {
 }
 document.querySelector('.about-hero')?.append(makeArches('art-left'));
 
-// Vines in every sage band. The band holding the project cards gets one big vine behind the
-// cards that sways as you scroll; the other bands get a vine in each corner.
-const wigglers = [];
+// The band holding the project cards gets the corner-to-corner wiggle vine behind its cards; the
+// other bands get a vine in each corner.
 document.querySelectorAll('.band').forEach((band) => {
   if (band.querySelector('.card')) {
-    const behind = makeVine('art-wiggle', '0 0 160 360', 'M80 360C80 300 20 280 40 220S120 160 90 100S60 40 100 0', 10);
-    band.prepend(behind.svg);
-    vines.push(behind);
-    wigglers.push(behind.svg);
+    makeWiggleVine(band);
     return;
   }
   const hanging = tallVine(); hanging.svg.classList.add('art-top-left');
@@ -330,21 +401,3 @@ if (!prefersReducedMotion && 'IntersectionObserver' in window) {
   vines.forEach((vine) => vineObserver.observe(vine.svg));
 }
 
-// Sway the "behind the cards" vine as the page scrolls: its tilt follows the scroll position
-// through two overlapping sine waves, which looks like a gentle wiggle rather than a spin.
-// (Skipped for reduced motion. requestAnimationFrame keeps it to one update per screen refresh.)
-if (wigglers.length && !prefersReducedMotion) {
-  let wiggleTicking = false;
-  const updateWiggle = () => {
-    const y = window.scrollY;
-    const tilt = Math.sin(y / 85) * 5 + Math.sin(y / 37) * 1.5;   // degrees, roughly -6.5 to 6.5
-    wigglers.forEach((svg) => svg.style.setProperty('--wiggle', tilt.toFixed(2)));
-    wiggleTicking = false;
-  };
-  window.addEventListener('scroll', () => {
-    if (wiggleTicking) return;
-    wiggleTicking = true;
-    requestAnimationFrame(updateWiggle);
-  }, { passive: true });
-  updateWiggle();
-}
