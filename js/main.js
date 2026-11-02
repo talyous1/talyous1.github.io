@@ -391,7 +391,7 @@ document.querySelectorAll('.band').forEach((band) => {
 // from the real page width, so it reaches both edges at any screen size (and is rebuilt if the
 // window is resized).
 const footer = document.querySelector('.site-footer');
-if (footer) {
+if (footer && !heroGrid) {                         // not on Home (the only page with the hero grid)
   let footerVine = null;
   const buildFooterVine = (alreadyDrawn) => {
     footerVine?.remove();
