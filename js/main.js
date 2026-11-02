@@ -3,6 +3,7 @@
    so this file only adds extras:
      A. A typewriter effect for the hero name on Home
      B. A custom cursor (dot + trailing ring) for people with a mouse
+     C. A back-to-top button that appears as you scroll
      0. Fade-in as sections scroll into view
      1. Filter buttons on the Design page (All / Brands / Posters / ...)
      2. A pop-up viewer ("lightbox") for the gallery images
@@ -108,6 +109,32 @@ function setCursorPaused(paused) {
     cursorRoot.classList.remove('is-visible');
   }
 }
+
+// ---------- C. Back-to-top button ----------
+// Appears after you scroll down a screen or so. While it is hidden (visibility: hidden in the
+// CSS) it cannot be tabbed to, so keyboard users never land on an invisible button.
+const toTop = document.createElement('button');
+toTop.type = 'button';
+toTop.className = 'to-top';
+toTop.setAttribute('aria-label', 'Back to top');
+toTop.textContent = '↑';
+document.body.append(toTop);
+
+let scrollTicking = false;
+window.addEventListener('scroll', () => {
+  if (scrollTicking) return;                       // only check once per screen refresh
+  scrollTicking = true;
+  requestAnimationFrame(() => {
+    toTop.classList.toggle('is-visible', window.scrollY > 600);
+    scrollTicking = false;
+  });
+}, { passive: true });
+
+toTop.addEventListener('click', () => {
+  window.scrollTo({ top: 0 });                     // smooth or instant follows the CSS setting
+  const brand = document.querySelector('.brand');  // move keyboard focus back to the top too
+  if (brand) brand.focus({ preventScroll: true });
+});
 
 // ---------- 0. Scroll reveal ----------
 // Blocks listed here fade up the first time they scroll into view.
