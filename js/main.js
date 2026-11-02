@@ -306,7 +306,7 @@ function makeWiggleVine(band) {
       const t = i / steps;
       // Walk from just outside the top-left corner to just outside the bottom-right one,
       // pushing each point sideways by a wave. The second, faster wave adds some wobble.
-      const push = Math.sin(t * Math.PI * 4 + phase) * 38 + Math.sin(t * Math.PI * 9 - phase * 1.6) * 9;
+      const push = Math.sin(t * Math.PI * 4 + phase) * 15 + Math.sin(t * Math.PI * 9 - phase * 1.6) * 3;
       points.push([-30 + (width + 60) * t + nx * push, -30 + (height + 60) * t + ny * push]);
     }
     // Join the points with smooth curves (each point is a curve's control point; the curve
@@ -320,6 +320,7 @@ function makeWiggleVine(band) {
     stem.setAttribute('d', d);
 
     const length = stem.getTotalLength();
+    svg.style.setProperty('--len', length);       // lets the CSS draw-in animation know how long the stem is
     holders.forEach((holder, i) => {
       const fraction = (i + 1) / (leafCount + 1);
       const here = stem.getPointAtLength(length * fraction);
@@ -327,20 +328,36 @@ function makeWiggleVine(band) {
       const heading = Math.atan2(ahead.y - here.y, ahead.x - here.x) * 180 / Math.PI;
       const tilt = i % 2 ? -50 : 50;
       holder.setAttribute('transform', `translate(${here.x.toFixed(1)} ${here.y.toFixed(1)}) rotate(${(heading + tilt).toFixed(1)}) scale(1.4)`);
+      holder.firstChild.style.setProperty('--d', `${(fraction * 2.6 + 0.2).toFixed(2)}s`);   // leaves pop out as the stem reaches them
     });
   };
 
   measure();
   draw(0);
-  window.addEventListener('resize', () => { measure(); draw(window.scrollY * 0.012); });
+
+  // Grow in the first time the band scrolls into view, like the other vines (shown already grown
+  // for reduced motion).
+  if (prefersReducedMotion || !('IntersectionObserver' in window)) {
+    svg.classList.add('is-drawn');
+  } else {
+    svg.classList.add('vine-ready');
+    const introObserver = new IntersectionObserver((entries) => {
+      if (entries.some((entry) => entry.isIntersecting)) {
+        svg.classList.add('is-drawn');
+        introObserver.disconnect();
+      }
+    }, { threshold: 0.2 });
+    introObserver.observe(band);
+  }
+  window.addEventListener('resize', () => { measure(); draw(window.scrollY * 0.009); });
   if (!prefersReducedMotion) {
     let ticking = false;
     window.addEventListener('scroll', () => {
       if (ticking) return;                           // redraw once per screen refresh
       ticking = true;
-      requestAnimationFrame(() => { draw(window.scrollY * 0.012); ticking = false; });
+      requestAnimationFrame(() => { draw(window.scrollY * 0.009); ticking = false; });
     }, { passive: true });
-    draw(window.scrollY * 0.012);
+    draw(window.scrollY * 0.009);
   }
 }
 
@@ -369,14 +386,6 @@ document.querySelectorAll('.band').forEach((band) => {
   band.append(hanging.svg, growing.svg);
   vines.push(hanging, growing);
 });
-
-// A long wavy vine above the footer text.
-const footerWrap = document.querySelector('.site-footer .wrap') || document.querySelector('.site-footer');
-if (footerWrap) {
-  const divider = makeVine('art-divider', '0 0 800 60', 'M0 30C80 0 130 60 200 30S330 0 400 30S530 60 600 30S730 0 800 30', 15);
-  footerWrap.prepend(divider.svg);
-  vines.push(divider);
-}
 
 // Add the leaves, then grow each vine the first time it scrolls into view (or show it already
 // grown if the visitor prefers reduced motion).

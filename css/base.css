@@ -379,7 +379,6 @@ main { overflow-x: clip; }                         /* rings may poke past the ed
 .art-wiggle .vine-stem { fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; }
 .art-wiggle .leaf { fill: currentColor; }
 
-.art-divider { position: static; display: block; grid-column: 1 / -1; width: 100%; height: 2.5rem; margin-bottom: 0.5rem; color: var(--accent); opacity: 0.45; }
 
 @media (prefers-reduced-motion: no-preference) {
   .art-arches .arch-1 { animation: arch-march 40s linear infinite; }
