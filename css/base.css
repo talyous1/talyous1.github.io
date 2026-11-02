@@ -307,3 +307,18 @@ html.has-custom-cursor :is(input, textarea, select) { cursor: text !important; }
   .about-hero { grid-template-columns: 17rem 1fr; gap: 3rem; }
   .about-hero .intro { grid-template-columns: 1fr; gap: 1rem; }
 }
+
+/* ---- Home: intro text and portrait side by side ---- */
+.home-hero-body { display: grid; gap: 1.5rem; padding-top: 1rem; }
+.home-hero-body .intro { padding-block: 0; grid-template-columns: 1fr; gap: 0; }
+.home-hero-body .actions { margin-top: 0; }
+.home-hero-body .portrait { width: min(100%, 15rem); }
+@media (min-width: 48rem) {
+  .home-hero-body {
+    grid-template-columns: 1fr 15rem; column-gap: 3rem; align-items: start;
+    grid-template-areas: "intro portrait" "actions portrait";
+  }
+  .home-hero-body .intro { grid-area: intro; grid-template-columns: 1fr; }
+  .home-hero-body .portrait { grid-area: portrait; width: 100%; }
+  .home-hero-body .actions { grid-area: actions; }
+}
