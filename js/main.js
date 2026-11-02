@@ -4,6 +4,7 @@
      A. A typewriter effect for the hero name on Home
      B. A custom cursor (dot + trailing ring) for people with a mouse
      C. A back-to-top button that appears as you scroll
+     D. Decorative art: slowly turning rings behind the portraits, and vines that grow in
      0. Fade-in as sections scroll into view
      1. Filter buttons on the Design page (All / Brands / Posters / ...)
      2. A pop-up viewer ("lightbox") for the gallery images
@@ -210,4 +211,104 @@ if (lightbox) {
   lightbox.addEventListener('click', (event) => {
     if (event.target === lightbox) lightbox.close();
   });
+}
+
+// ---------- D. Decorative art: turning rings and growing vines ----------
+// Pure decoration, so it is hidden from screen readers (aria-hidden) and added here instead of
+// cluttering every page's HTML. Without JavaScript the pages simply have no decoration.
+// The animating itself is done in CSS (base.css, "Decorative art"), which also stops it for
+// anyone who asked for reduced motion.
+const SVG_NS = 'http://www.w3.org/2000/svg';
+
+// Small helper: make an SVG element and set its attributes in one go.
+function svgEl(name, attributes) {
+  const el = document.createElementNS(SVG_NS, name);
+  Object.entries(attributes).forEach(([key, value]) => el.setAttribute(key, value));
+  return el;
+}
+
+// Three dashed circles, each with a small dot riding on it. CSS slowly spins them.
+function makeRings(sideClass) {
+  const svg = svgEl('svg', {
+    class: `art art-rings ${sideClass}`, viewBox: '-170 -170 340 340', 'aria-hidden': 'true', focusable: 'false',
+  });
+  [[100, '2 9'], [128, '14 10'], [158, '1 14']].forEach(([radius, dashes], index) => {
+    const ring = svgEl('g', { class: `ring ring-${index + 1}` });
+    ring.append(svgEl('circle', { r: radius, 'stroke-dasharray': dashes }));
+    ring.append(svgEl('circle', { class: 'ring-dot', cx: radius, cy: 0, r: 4 }));
+    svg.append(ring);
+  });
+  return svg;
+}
+
+// A winding stem with leaves placed along it. Once the SVG is on the page we can ask the stem
+// how long it is and where each point along it sits, and hang a leaf at that spot.
+function makeVine(className, viewBox, stemPath, leafCount) {
+  const svg = svgEl('svg', { class: `art art-vine ${className}`, viewBox, 'aria-hidden': 'true', focusable: 'false' });
+  const stem = svgEl('path', { class: 'vine-stem', d: stemPath });
+  svg.append(stem);
+  return { svg, stem, leafCount };
+}
+
+function addLeaves({ svg, stem, leafCount }) {
+  const length = stem.getTotalLength();
+  svg.style.setProperty('--len', length);            // CSS uses this to "draw" the stem
+  for (let i = 1; i <= leafCount; i += 1) {
+    const fraction = i / (leafCount + 1);
+    const here = stem.getPointAtLength(length * fraction);
+    const ahead = stem.getPointAtLength(length * fraction + 1);
+    const heading = Math.atan2(ahead.y - here.y, ahead.x - here.x) * 180 / Math.PI;
+    const tilt = i % 2 ? -50 : 50;                    // alternate sides of the stem
+    const holder = svgEl('g', { transform: `translate(${here.x} ${here.y}) rotate(${heading + tilt})` });
+    const leaf = svgEl('path', { class: 'leaf', d: 'M0 0C5-9 17-9 24 0C17 9 5 9 0 0Z' });
+    leaf.style.setProperty('--d', `${(fraction * 2.6 + 0.2).toFixed(2)}s`);   // leaves appear as the stem reaches them
+    holder.append(leaf);
+    svg.append(holder);
+  }
+}
+
+const vines = [];
+const tallVine = () => makeVine('', '0 0 160 360', 'M80 360C80 300 20 280 40 220S120 160 90 100S60 40 100 0', 7);
+
+// Rings behind the portrait on Home (right side) and About (left side).
+document.querySelector('.hero-grid')?.append(makeRings('art-right'));
+document.querySelector('.about-hero')?.append(makeRings('art-left'));
+
+// Vines in the corners of every sage band.
+document.querySelectorAll('.band').forEach((band) => {
+  const hanging = tallVine(); hanging.svg.classList.add('art-top-left');
+  const growing = tallVine(); growing.svg.classList.add('art-bottom-right');
+  band.append(hanging.svg, growing.svg);
+  vines.push(hanging, growing);
+});
+
+// A long wavy vine above the footer text.
+const footerWrap = document.querySelector('.site-footer .wrap') || document.querySelector('.site-footer');
+if (footerWrap) {
+  const divider = makeVine('art-divider', '0 0 800 60', 'M0 30C80 0 130 60 200 30S330 0 400 30S530 60 600 30S730 0 800 30', 15);
+  footerWrap.prepend(divider.svg);
+  vines.push(divider);
+}
+
+// Add the leaves, then grow each vine the first time it scrolls into view (or show it already
+// grown if the visitor prefers reduced motion).
+vines.forEach((vine) => {
+  addLeaves(vine);
+  if (prefersReducedMotion || !('IntersectionObserver' in window)) {
+    vine.svg.classList.add('is-drawn');
+  } else {
+    vine.svg.classList.add('vine-ready');
+  }
+});
+
+if (!prefersReducedMotion && 'IntersectionObserver' in window) {
+  const vineObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-drawn');
+        vineObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.25 });
+  vines.forEach((vine) => vineObserver.observe(vine.svg));
 }

@@ -334,3 +334,44 @@ html.has-custom-cursor :is(input, textarea, select) { cursor: text !important; }
   .hero-grid { grid-template-columns: 1fr 22rem; }
   .hero-grid h1 { font-size: clamp(3rem, 10vw, 7.5rem); }
 }
+
+/* ---- Decorative art: turning rings and growing vines (added by main.js, hidden from screen readers) ---- */
+main { overflow-x: clip; }                         /* rings may poke past the edge without causing sideways scroll */
+.art { position: absolute; pointer-events: none; color: var(--accent); }
+.hero-grid, .about-hero, .band { position: relative; }
+.hero-grid > :not(.art), .about-hero > :not(.art) { position: relative; z-index: 1; }
+.band { overflow: hidden; }
+.band > .wrap { position: relative; z-index: 1; }
+
+.art-rings { display: none; width: 28rem; max-width: none; opacity: 0.7; z-index: 0; }
+.art-rings circle { fill: none; stroke: currentColor; stroke-width: 2; }
+.art-rings .ring-dot { fill: currentColor; stroke: none; }
+.art-rings .ring { transform-box: fill-box; transform-origin: center; }
+@media (min-width: 48rem) {
+  .art-rings { display: block; }
+  .art-rings.art-right { right: -5rem; top: -2.25rem; }
+  .art-rings.art-left { width: 24rem; left: -3.5rem; top: -1.4rem; }
+}
+@media (min-width: 64rem) { .art-rings.art-right { width: 34rem; right: -6rem; top: -3rem; } }
+
+.art-vine { height: min(90%, 26rem); width: auto; opacity: 0.22; color: var(--band-ink); }
+.art-vine .vine-stem { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+.art-vine .leaf { fill: currentColor; }
+.art-top-left { top: 0; left: 2%; transform: scaleY(-1); }
+.art-bottom-right { bottom: 0; right: 2%; }
+@media (max-width: 40rem) { .art-top-left, .art-bottom-right { display: none; } }
+
+.art-divider { position: static; display: block; grid-column: 1 / -1; width: 100%; height: 2.5rem; margin-bottom: 0.5rem; color: var(--accent); opacity: 0.45; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .art-rings .ring-1 { animation: ring-spin 90s linear infinite; }
+  .art-rings .ring-2 { animation: ring-spin 140s linear infinite reverse; }
+  .art-rings .ring-3 { animation: ring-spin 200s linear infinite; }
+  @keyframes ring-spin { to { transform: rotate(360deg); } }
+
+  /* Vines start undrawn, then the stem draws itself and the leaves pop out along it. */
+  .vine-ready .vine-stem { stroke-dasharray: var(--len); stroke-dashoffset: var(--len); }
+  .vine-ready .leaf { transform: scale(0); }
+  .vine-ready.is-drawn .vine-stem { stroke-dashoffset: 0; transition: stroke-dashoffset 2.8s ease-out; }
+  .vine-ready.is-drawn .leaf { transform: scale(1); transition: transform 0.7s ease-out var(--d, 0s); }
+}
