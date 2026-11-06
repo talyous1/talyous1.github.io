@@ -330,7 +330,8 @@ html.has-custom-cursor :is(input, textarea, select) { cursor: text !important; }
   .hero-grid .lede { grid-area: lede; }
   .hero-grid .intro { grid-area: intro; padding-top: 1.25rem; }
   .hero-grid .actions { grid-area: actions; }
-  .hero-grid .portrait { grid-area: portrait; width: 100%; margin: 0.5rem 0 0; }
+  /* the portrait stretches from the top of the tagline to the bottom of the buttons */
+  .hero-grid .portrait { grid-area: portrait; width: 100%; height: auto; aspect-ratio: auto; margin: 0.4rem 0 0; align-self: stretch; }   /* 0.4rem = the gap above the tagline letters */
 }
 /* On large screens the portrait gets bigger so it matches the height of the text beside it */
 @media (min-width: 64rem) {
