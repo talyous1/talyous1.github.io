@@ -1,7 +1,7 @@
 /* main.js — the only JavaScript on the site.
    Everything still works without it (all images show, links open, the name is readable),
    so this file only adds extras:
-     A. A typewriter effect for the hero name on Home
+     A. Letters that rise into place for the hero name on Home
      B. A custom cursor (dot + trailing ring) for people with a mouse
      C. A back-to-top button that appears as you scroll
      D. Decorative art: arches around the About portrait, and vines that grow in
@@ -16,9 +16,10 @@
 // "reduce motion" in their device, so we skip the animated extras below.
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-// ---------- A. Typewriter for the hero name (Home page only) ----------
+// ---------- A. Hero name: words rise into place (Home page only) ----------
 // The page already contains the full name (for search engines, screen readers, and
-// people without JavaScript). Here we clear the visible copy and type it back out.
+// people without JavaScript). Here we split the visible copy into words and let each one
+// float up and settle, one after another. The look is set in css/base.css (.tw-letter).
 const typedEl = document.querySelector('[data-typewriter]');
 
 if (typedEl) {
@@ -26,25 +27,18 @@ if (typedEl) {
   const fullText = typedEl.textContent;           // remember the whole name
 
   if (prefersReducedMotion) {
-    heading.classList.add('tw-started');          // just show the name, no typing
+    heading.classList.add('tw-started');          // just show the name, no movement
   } else {
     typedEl.textContent = '';
-    heading.classList.add('tw-started', 'tw-typing');
-    let count = 0;
-
-    const typeNextLetter = () => {
-      count += 1;
-      typedEl.textContent = fullText.slice(0, count);   // show the first `count` letters
-      if (count < fullText.length) {
-        // Slightly uneven timing (70 to 140 ms) feels like a person typing.
-        setTimeout(typeNextLetter, 70 + Math.random() * 70);
-      } else {
-        // Keep the caret blinking for a moment, then remove it.
-        setTimeout(() => heading.classList.remove('tw-typing'), 2400);
-      }
-    };
-
-    setTimeout(typeNextLetter, 500);               // wait for the page fade-in first
+    // One span per word (not per letter) so the font keeps its kerning and the name looks the same.
+    fullText.split(" ").forEach((word, i, words) => {
+      const span = document.createElement('span');
+      span.className = 'tw-letter';
+      span.textContent = i < words.length - 1 ? word + ' ' : word;
+      span.style.setProperty('--i', i);           // CSS uses this to stagger the words
+      typedEl.append(span);
+    });
+    heading.classList.add('tw-started');
   }
 }
 
