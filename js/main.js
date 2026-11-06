@@ -421,6 +421,45 @@ if (footer && !heroGrid) {                         // not on Home (the only page
   });
 }
 
+// A vine that grows along the underside of the name on Home, just after the words settle. It is
+// built from the real width of the name (so it fits at every screen size) and rebuilt on resize.
+const nameHeading = document.querySelector('.hero-grid h1');
+if (nameHeading) {
+  let nameVine = null;
+  const buildNameVine = (alreadyDrawn) => {
+    nameVine?.remove();
+    const range = document.createRange();
+    range.selectNodeContents(nameHeading.querySelector('[data-typewriter]'));
+    const width = Math.round(range.getBoundingClientRect().width);
+    if (!width) return;
+    let d = 'M0 20';
+    for (let x = 0, up = true; x < width; x += 70, up = !up) {          // one gentle wave per 70px
+      d += `Q${x + 35} ${up ? 6 : 34} ${x + 70} 20`;
+    }
+    const vine = makeVine('art-name', `0 0 ${width} 40`, d, Math.max(5, Math.round(width / 55)));
+    vine.svg.style.width = `${width}px`;
+    nameHeading.append(vine.svg);
+    addLeaves(vine);
+    nameVine = vine.svg;
+    if (alreadyDrawn || prefersReducedMotion) {
+      vine.svg.classList.add('is-drawn');
+    } else {
+      vine.svg.classList.add('vine-ready');
+      setTimeout(() => vine.svg.classList.add('is-drawn'), 1300);         // after the words have landed
+    }
+  };
+  document.fonts.ready.then(() => {
+    buildNameVine(false);
+    let lastWidth = nameHeading.clientWidth;
+    window.addEventListener('resize', () => {
+      if (nameHeading.clientWidth !== lastWidth) {
+        lastWidth = nameHeading.clientWidth;
+        buildNameVine(true);
+      }
+    });
+  });
+}
+
 // Add the leaves, then grow each vine the first time it scrolls into view (or show it already
 // grown if the visitor prefers reduced motion).
 vines.forEach((vine) => {

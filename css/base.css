@@ -401,3 +401,8 @@ main { overflow-x: clip; }                         /* rings may poke past the ed
   .vine-ready.is-drawn .leaf { transform: scale(1); transition: transform 0.7s ease-out var(--d, 0s); }
 }
 
+
+/* The vine growing under the name on Home (main.js sizes it to the name) */
+.art-vine.art-name { left: 0; bottom: -1.4rem; height: 40px; opacity: 0.9; color: var(--accent); z-index: 2; }
+.art-name .vine-stem { fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; }
+.art-name .leaf { fill: currentColor; }
