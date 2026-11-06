@@ -450,3 +450,10 @@ if (!prefersReducedMotion && 'IntersectionObserver' in window) {
   vines.forEach((vine) => vineObserver.observe(vine.svg));
 }
 
+
+// ---- Home banner video: it starts by itself (muted), but stays paused for visitors who prefer reduced motion ----
+const reelVideo = document.querySelector('.reel-video');
+if (reelVideo && prefersReducedMotion) {
+  reelVideo.removeAttribute('autoplay');
+  reelVideo.pause();
+}
