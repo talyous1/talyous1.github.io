@@ -310,20 +310,23 @@ html.has-custom-cursor :is(input, textarea, select) { cursor: text !important; }
   .about-hero .intro { grid-template-columns: 1fr; gap: 1rem; }
 }
 
-/* ---- Home hero: text on the left, portrait on the right ---- */
-.hero-grid { display: grid; gap: 1rem; padding-top: 0.5rem; }
+/* ---- Home hero: the name runs the full width of the page; paragraph on the left, portrait on the right below it ---- */
+.hero-grid { display: grid; gap: 1rem; padding-top: 0.5rem; container-type: inline-size; }
 .hero-grid .lede { margin-bottom: 0; }
 .hero-grid .intro { padding-block: 0.5rem 0; grid-template-columns: 1fr; gap: 0; }
 .hero-grid .portrait { width: min(100%, 16rem); margin-block: 0.5rem; }
 .hero-grid .actions { margin-top: 0.25rem; }
+/* The name is sized from the width of its container (cqw = 1% of it): "Tala Alyousef" is about
+   5.15 times as wide as its font size, so 19.2cqw makes it fill the line. */
+.hero-grid h1 { font-size: clamp(3rem, 14vw, 9rem); margin-bottom: 0.1em; }
+@supports (width: 1cqw) { .hero-grid h1 { font-size: 19.2cqw; line-height: 1.1; } }
 @media (min-width: 48rem) {
   .hero-grid {
     grid-template-columns: 1fr 18rem; column-gap: 3rem; row-gap: 0; align-items: start;
-    grid-template-areas: "title portrait" "lede portrait" "intro portrait" "actions portrait";
+    grid-template-areas: "title title" "lede portrait" "intro portrait" "actions portrait";
     grid-template-rows: auto auto auto 1fr;
   }
-  /* the name is sized so it always fits the left column */
-  .hero-grid h1 { grid-area: title; font-size: clamp(3rem, 9vw, 9rem); margin-bottom: 0.25em; }
+  .hero-grid h1 { grid-area: title; }
   .hero-grid .lede { grid-area: lede; }
   .hero-grid .intro { grid-area: intro; padding-top: 1.25rem; }
   .hero-grid .actions { grid-area: actions; }
@@ -332,7 +335,6 @@ html.has-custom-cursor :is(input, textarea, select) { cursor: text !important; }
 /* On large screens the portrait gets bigger so it matches the height of the text beside it */
 @media (min-width: 64rem) {
   .hero-grid { grid-template-columns: 1fr 22rem; }
-  .hero-grid h1 { font-size: clamp(3rem, 10vw, 7.5rem); }
 }
 
 /* ---- Decorative art: turning rings and growing vines (added by main.js, hidden from screen readers) ---- */
@@ -375,8 +377,8 @@ main { overflow-x: clip; }                         /* rings may poke past the ed
 @media (min-width: 48rem) {
   .art-hero { display: block; }
   /* each vine straddles the portrait edge: half on the photo, half on the page (vine is 6rem wide) */
-  .art-hero-a { right: calc(var(--pw) - 3rem); top: calc(0.5rem + var(--pw) * 1.25 - 12rem); }   /* bottom-left corner */
-  .art-hero-b { right: -3rem; top: -1rem; transform: scale(-1, -1); }                              /* top-right corner */
+  .art-hero-a { right: calc(var(--pw) - 3rem); top: calc(var(--p-bottom, calc(0.5rem + var(--pw) * 1.25)) - 12rem); }   /* bottom-left corner */
+  .art-hero-b { right: -3rem; top: calc(var(--p-top, 0.5rem) - 1.5rem); transform: scale(-1, -1); }                /* top-right corner */
 }
 @media (min-width: 64rem) { .hero-grid { --pw: 22rem; } }
 

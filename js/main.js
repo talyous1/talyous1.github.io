@@ -402,6 +402,16 @@ if (heroGrid) {
   const lowerLeft = makeVine('art-hero art-hero-a', '0 0 160 360', 'M80 360C80 300 20 280 40 220S120 160 90 100S60 40 100 0', 5);
   const upperRight = makeVine('art-hero art-hero-b', '0 0 160 360', 'M80 360C80 300 20 280 40 220S120 160 90 100S60 40 100 0', 5);
   heroGrid.append(lowerLeft.svg, upperRight.svg);
+  // The portrait now sits below the full-width name, so tell the CSS where its top and bottom are.
+  const heroPortrait = heroGrid.querySelector('.portrait');
+  const placeHeroVines = () => {
+    heroGrid.style.setProperty('--p-top', `${heroPortrait.offsetTop}px`);
+    heroGrid.style.setProperty('--p-bottom', `${heroPortrait.offsetTop + heroPortrait.offsetHeight}px`);
+  };
+  placeHeroVines();
+  window.addEventListener('resize', placeHeroVines);
+  window.addEventListener('load', placeHeroVines);
+  document.fonts.ready.then(placeHeroVines);
   vines.push(lowerLeft, upperRight);
 }
 document.querySelector('.about-hero')?.append(makeArches('art-left'));
