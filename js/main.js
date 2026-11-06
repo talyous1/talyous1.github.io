@@ -76,7 +76,7 @@ if (typedEl) {
 
     // Wait for the display font so the video lines up with the real letters.
     document.fonts.ready.then(playNameVideo);
-    setTimeout(showRealName, 8000);                  // safety net: never leave the name hidden
+    setTimeout(showRealName, 12000);                 // safety net: never leave the name hidden
   }
 }
 
