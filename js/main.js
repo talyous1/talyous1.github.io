@@ -1,7 +1,7 @@
 /* main.js — the only JavaScript on the site.
    Everything still works without it (all images show, links open, the name is readable),
    so this file only adds extras:
-     A. Letters that rise into place for the hero name on Home
+     A. A short video where a vine grows and turns into the hero name on Home
      B. A custom cursor (dot + trailing ring) for people with a mouse
      C. A back-to-top button that appears as you scroll
      D. Decorative art: arches around the About portrait, and vines that grow in
@@ -16,29 +16,67 @@
 // "reduce motion" in their device, so we skip the animated extras below.
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-// ---------- A. Hero name: words rise into place (Home page only) ----------
+// ---------- A. Hero name: a vine grows and turns into the name (Home page only) ----------
 // The page already contains the full name (for search engines, screen readers, and
-// people without JavaScript). Here we split the visible copy into words and let each one
-// float up and settle, one after another. The look is set in css/base.css (.tw-letter).
+// people without JavaScript). For a few seconds we hide the real text and play a short
+// transparent video on top of it, made with Remotion (see the portfolio-motion project): a vine
+// traces the outline of every letter, then the letters fill with ink. The video ends on the
+// finished name, then we fade the real text back in and remove the video.
+// The video needs a transparent background, which Chrome, Edge and Firefox support, so other
+// browsers (and anyone who prefers reduced motion) just see the plain name.
 const typedEl = document.querySelector('[data-typewriter]');
 
 if (typedEl) {
   const heading = typedEl.closest('.typewriter');
-  const fullText = typedEl.textContent;           // remember the whole name
+  heading.classList.add('tw-started');
 
-  if (prefersReducedMotion) {
-    heading.classList.add('tw-started');          // just show the name, no movement
-  } else {
-    typedEl.textContent = '';
-    // One span per word (not per letter) so the font keeps its kerning and the name looks the same.
-    fullText.split(" ").forEach((word, i, words) => {
-      const span = document.createElement('span');
-      span.className = 'tw-letter';
-      span.textContent = i < words.length - 1 ? word + ' ' : word;
-      span.style.setProperty('--i', i);           // CSS uses this to stagger the words
-      typedEl.append(span);
-    });
-    heading.classList.add('tw-started');
+  const canPlayTransparentVideo = /Chrome\/|Firefox\//.test(navigator.userAgent);
+  if (!prefersReducedMotion && canPlayTransparentVideo) {
+    heading.classList.add('tw-drawing');            // hides the real name until the video is done
+    const showRealName = () => heading.classList.remove('tw-drawing');
+
+    // These numbers must match the Remotion project (src/NameGrow.tsx).
+    const CLIP = { fontSize: 300, pad: 100, baseline: 330, width: 1745, height: 520 };
+
+    const playNameVideo = () => {
+      const box = heading.getBoundingClientRect();
+      const range = document.createRange();
+      range.selectNodeContents(typedEl);
+      const text = range.getBoundingClientRect();
+      const scale = parseFloat(getComputedStyle(typedEl).fontSize) / CLIP.fontSize;
+
+      // Find the baseline: a zero-height inline box sits exactly on it.
+      const marker = document.createElement('span');
+      marker.style.cssText = 'display:inline-block;width:0;height:0;';
+      typedEl.append(marker);
+      const baseline = marker.getBoundingClientRect().bottom - box.top;
+      marker.remove();
+
+      const video = document.createElement('video');
+      video.className = 'name-video';
+      video.src = 'assets/video/name-grow.webm';
+      video.muted = true;
+      video.playsInline = true;
+      video.setAttribute('aria-hidden', 'true');
+      video.style.width = `${CLIP.width * scale}px`;
+      video.style.height = `${CLIP.height * scale}px`;
+      video.style.left = `${text.left - box.left - CLIP.pad * scale}px`;
+      video.style.top = `${baseline - CLIP.baseline * scale}px`;
+      heading.append(video);
+
+      const finish = () => {
+        showRealName();                              // real text fades in...
+        video.classList.add('is-leaving');           // ...while the video fades out
+        setTimeout(() => video.remove(), 500);
+      };
+      video.addEventListener('ended', finish);
+      video.addEventListener('error', () => { showRealName(); video.remove(); });
+      video.play().catch(() => { showRealName(); video.remove(); });
+    };
+
+    // Wait for the display font so the video lines up with the real letters.
+    document.fonts.ready.then(playNameVideo);
+    setTimeout(showRealName, 8000);                  // safety net: never leave the name hidden
   }
 }
 
@@ -418,45 +456,6 @@ if (footer && !heroGrid) {                         // not on Home (the only page
       lastWidth = footer.clientWidth;
       buildFooterVine(true);
     }
-  });
-}
-
-// A vine that grows along the underside of the name on Home, just after the words settle. It is
-// built from the real width of the name (so it fits at every screen size) and rebuilt on resize.
-const nameHeading = document.querySelector('.hero-grid h1');
-if (nameHeading) {
-  let nameVine = null;
-  const buildNameVine = (alreadyDrawn) => {
-    nameVine?.remove();
-    const range = document.createRange();
-    range.selectNodeContents(nameHeading.querySelector('[data-typewriter]'));
-    const width = Math.round(range.getBoundingClientRect().width);
-    if (!width) return;
-    let d = 'M0 20';
-    for (let x = 0, up = true; x < width; x += 70, up = !up) {          // one gentle wave per 70px
-      d += `Q${x + 35} ${up ? 6 : 34} ${x + 70} 20`;
-    }
-    const vine = makeVine('art-name', `0 0 ${width} 40`, d, Math.max(5, Math.round(width / 55)));
-    vine.svg.style.width = `${width}px`;
-    nameHeading.append(vine.svg);
-    addLeaves(vine);
-    nameVine = vine.svg;
-    if (alreadyDrawn || prefersReducedMotion) {
-      vine.svg.classList.add('is-drawn');
-    } else {
-      vine.svg.classList.add('vine-ready');
-      setTimeout(() => vine.svg.classList.add('is-drawn'), 1300);         // after the words have landed
-    }
-  };
-  document.fonts.ready.then(() => {
-    buildNameVine(false);
-    let lastWidth = nameHeading.clientWidth;
-    window.addEventListener('resize', () => {
-      if (nameHeading.clientWidth !== lastWidth) {
-        lastWidth = nameHeading.clientWidth;
-        buildNameVine(true);
-      }
-    });
   });
 }
 
