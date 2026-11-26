@@ -131,6 +131,9 @@ p { margin: 0 0 1em; max-width: 62ch; }
 
 .feature { display: grid; gap: 2rem; align-items: center; }
 .feature img { width: 100%; }
+.feature video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; background: var(--surface); }
+.feature video + .label { margin: 0.5rem 0 0; }
+.doc-links { list-style: none; margin: 1rem 0 0; padding: 0; display: grid; gap: 0.35rem; }
 
 /* Lightbox: the built-in <dialog> element handles focus and the Esc key for us */
 dialog.lightbox { max-width: min(92vw, 60rem); max-height: 92vh; padding: 1rem; border: 0; background: var(--surface); color: var(--ink); }
