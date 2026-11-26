@@ -29,6 +29,8 @@
   const charm = $("footer.painted .mono .logo-lace");
   let swing = 0, vel = 0, lastY = scrollY, queued = false;
 
+  const stitch = $(".stitch"), reveal = $(".stitch .reveal"), line = $(".stitch .thread-line"), heart = $(".stitch .heart");
+
   const update = () => {
     queued = false;
     const H = innerHeight;
@@ -42,6 +44,13 @@
       const r = verse.getBoundingClientRect();
       const p = clamp((H * 0.88 - r.top) / (H * 0.5));
       words.forEach((w, i) => w.classList.toggle("lit", p * (words.length + 1) > i + 0.5));
+    }
+    if (stitch) {
+      const r = stitch.getBoundingClientRect();
+      const p = clamp((H * 0.82 - r.top) / (H * 0.45));
+      reveal.style.strokeDashoffset = (1 - p).toFixed(3);
+      const pt = line.getPointAtLength(line.getTotalLength() * p);
+      heart.setAttribute("transform", `translate(${pt.x.toFixed(1)} ${pt.y.toFixed(1)}) scale(${(0.7 + p * 0.5).toFixed(2)})`);
     }
     const max = document.documentElement.scrollHeight - H;
     thread.style.setProperty("--page", max > 0 ? clamp(scrollY / max).toFixed(4) : 0);
