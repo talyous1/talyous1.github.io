@@ -33,11 +33,11 @@
       <text x="${sx}" y="${sy}" ${f} fill="currentColor">${i.a}</text>`;
   }
 
-  // The lace oval: a real lace frame (img/lace-oval.webp) with the woven initials over it
+  // The lace oval: an ornate lace-work oval from Canva (img/lace-oval.webp) with the woven initials over it
   function laceOval(i) {
     return `<div class="logo logo-lace" role="img" aria-label="${i.a} and ${i.b} monogram">
       <img src="img/lace-oval.webp" alt="">
-      <svg viewBox="0 0 300 300">${woven(i, 128, 182, 172, 204, 132, 7)}</svg>
+      <svg viewBox="0 0 300 300">${woven(i, 108, 192, 160, 216, 160, 8)}</svg>
     </div>`;
   }
 
