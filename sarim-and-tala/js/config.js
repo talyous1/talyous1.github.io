@@ -4,6 +4,7 @@
 ------------------------------------------------------------------- */
 window.INVITE = {
   couple: { first: "Sarim", second: "Tala" },
+  monogramFont: "Great Vibes",          // script font for the S & T monogram (see monograms.html for the choices)
 
   nikkah: {
     title: "Nikkah",

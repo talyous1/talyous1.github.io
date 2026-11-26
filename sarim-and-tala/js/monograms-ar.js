@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const options = [
     ["The Lace Oval", "Both initials in flowing script inside a lace-edged oval. This one closes the wedding page, over the painting.", "sage",
-      Logo.svg({ variant: "lace" })],
+      Logo.svg({ variant: "lace", tone: "ivory" })],
     ["The Cradle", "A sweeping ruqʿah ṣād with the tā' resting above its curve, inside a double oval.", "teal",
       S(`<ellipse cx="150" cy="150" rx="112" ry="136" stroke-width="1.2"/><ellipse cx="150" cy="150" rx="104" ry="128" stroke-width=".7" stroke-dasharray="1 4" stroke-linecap="round"/>
         ${t(158, 196, 150, RUQ, SAD)}${t(112, 118, 78, RUQ, TA, 'opacity=".75"')}`)],

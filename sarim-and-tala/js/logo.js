@@ -23,30 +23,61 @@
     seal: { w: 200, h: 200, s: [86, 132, 118], t: [121, 140, 82] }
   };
 
-  // Two script initials woven together: the second letter passes behind the first, with a hairline gap where they cross
+  // Two script initials woven together: the second letter passes behind the first, with a hairline gap where they cross.
+  // The letters are then scaled and centred to fit the box given in "fit" (centre x, centre y, width, height), whatever the font.
   let uid = 0;
-  function woven(i, sx, sy, tx, ty, size, gap) {
-    const id = "weave" + (++uid), f = "font-family=\"'Pinyon Script',cursive\" font-size=\"" + size + "\" text-anchor=\"middle\"";
-    return `<defs><mask id="${id}" maskUnits="userSpaceOnUse" x="-50" y="-50" width="500" height="500"><rect x="-50" y="-50" width="500" height="500" fill="#fff"/>
+  const scriptFont = (name) => "'" + (name || (window.INVITE && INVITE.monogramFont) || "Pinyon Script") + "',cursive";
+  function woven(i, sx, sy, tx, ty, size, gap, fit, fontName) {
+    const id = "weave" + (++uid), fam = scriptFont(fontName), f = "font-family=\"" + fam + "\" font-size=\"" + size + "\" text-anchor=\"middle\"";
+    return `<defs><mask id="${id}" maskUnits="userSpaceOnUse" x="-400" y="-400" width="1100" height="1100"><rect x="-400" y="-400" width="1100" height="1100" fill="#fff"/>
         <text x="${sx}" y="${sy}" ${f} fill="#000" stroke="#000" stroke-width="${gap}" stroke-linejoin="round">${i.a}</text></mask></defs>
-      <text x="${tx}" y="${ty}" ${f} fill="currentColor" mask="url(#${id})">${i.b}</text>
-      <text x="${sx}" y="${sy}" ${f} fill="currentColor">${i.a}</text>`;
+      <g class="letters" data-fit="${fit}">
+        <text x="${tx}" y="${ty}" ${f} fill="currentColor" mask="url(#${id})">${i.b}</text>
+        <text x="${sx}" y="${sy}" ${f} fill="currentColor">${i.a}</text>
+      </g>`;
+  }
+  // measure the real inked shape of the letters (not their type boxes) and fit it to the frame
+  const pen = document.createElement("canvas").getContext("2d");
+  function fitLetters(root) {
+    (root || document).querySelectorAll("g.letters").forEach((g) => {
+      let x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9;
+      g.querySelectorAll("text").forEach((t) => {
+        pen.font = t.getAttribute("font-size") + "px " + t.getAttribute("font-family");
+        pen.textAlign = "center";
+        const m = pen.measureText(t.textContent), x = +t.getAttribute("x"), y = +t.getAttribute("y");
+        x0 = Math.min(x0, x - m.actualBoundingBoxLeft); x1 = Math.max(x1, x + m.actualBoundingBoxRight);
+        y0 = Math.min(y0, y - m.actualBoundingBoxAscent); y1 = Math.max(y1, y + m.actualBoundingBoxDescent);
+      });
+      if (!(x1 > x0 && y1 > y0)) return;
+      const [cx, cy, w, h] = g.dataset.fit.split(",").map(Number), s = Math.min(w / (x1 - x0), h / (y1 - y0));
+      g.setAttribute("transform", `translate(${cx} ${cy}) scale(${s.toFixed(4)}) translate(${(-(x0 + x1) / 2).toFixed(2)} ${(-(y0 + y1) / 2).toFixed(2)})`);
+    });
+  }
+  function refit(root) {
+    fitLetters(root);
+    if (!document.fonts) return;
+    const fams = new Set([...(root || document).querySelectorAll("g.letters text")].map((t) => t.getAttribute("font-family")));
+    Promise.all([...fams].map((f) => document.fonts.load("76px " + f).catch(() => {}))).then(() => {
+      (root || document).querySelectorAll(".logo text").forEach((t) => { t.textContent = t.textContent; });
+      fitLetters(root);
+    });
   }
 
   // The lace oval: the lace oval (img/lace-oval.webp), drawn inside the SVG and tinted to match the letters with the woven initials over it
-  function laceOval(i) {
+  function laceOval(i, tone, fontName) {
+    // the oval comes pre-coloured (ivory or gold) so no browser has to tint it
+    const gold = tone ? tone === "gold" : document.body.classList.contains("nikkah") && !document.body.classList.contains("gate");
     return `<div class="logo logo-lace" role="img" aria-label="${i.a} and ${i.b} monogram">
       <svg viewBox="0 0 300 300">
-        <defs><filter id="lace${uid + 1}" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feFlood flood-color="currentColor" result="ink"/><feComposite in="ink" in2="SourceAlpha" operator="in"/></filter></defs>
-        <image href="img/lace-oval.webp" x="0" y="0" width="300" height="300" filter="url(#lace${uid + 1})"/>
-        ${woven(i, 116, 163, 141, 176, 76, 5)}
+        <image href="img/lace-oval${gold ? "-gold" : ""}.webp" x="0" y="0" width="300" height="300"/>
+        ${woven(i, 116, 163, 141, 176, 76, 5, "150,150,106,122", fontName)}
       </svg>
     </div>`;
   }
 
   function svg(opts) {
     const o = Object.assign({ variant: "arch", names: true }, opts);
-    if (o.variant === "lace") return laceOval(initials());
+    if (o.variant === "lace") return laceOval(initials(), o.tone, o.font);
     const i = initials(), g = L[o.variant];
     const letters =
       `<text x="${g.t[0]}" y="${g.t[1]}" text-anchor="middle" font-family="'Cormorant Garamond',serif" font-weight="300" font-size="${g.t[2]}" fill="currentColor" opacity=".55">${i.b}</text>` +
@@ -55,7 +86,7 @@
       return `<svg class="logo logo-seal" viewBox="0 0 200 200" role="img" aria-label="${i.a} and ${i.b} monogram">
         <circle cx="100" cy="100" r="92" fill="none" stroke="currentColor" stroke-width="1.2"/>
         <circle cx="100" cy="100" r="85" fill="none" stroke="currentColor" stroke-width=".6" stroke-dasharray="1 4" stroke-linecap="round"/>
-        ${woven(i, 86, 126, 116, 142, 104, 5)}</svg>`;
+        ${woven(i, 86, 126, 116, 142, 104, 5, "100,100,112,104", o.font)}</svg>`;
     }
     return `<svg class="logo logo-arch" viewBox="0 0 400 520" role="img" aria-label="${i.a} and ${i.b} monogram">
       <path d="${ARCH_OUT}" fill="none" stroke="currentColor" stroke-width="1.4"/>
@@ -100,11 +131,12 @@
     return c.toDataURL("image/png");
   }
 
-  window.Logo = { svg, png };
+  window.Logo = { svg, png, refit };
 
   document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll("[data-logo]").forEach((el) => {
       el.innerHTML = svg({ variant: el.dataset.logo || "arch", names: el.dataset.names !== "false" });
     });
+    refit();
   });
 })();

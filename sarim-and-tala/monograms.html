@@ -6,8 +6,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Amiri&family=Aref+Ruqaa&family=Noto+Nastaliq+Urdu&family=Rakkas&family=Reem+Kufi&family=Bodoni+Moda:opsz,wght@6..96,400&family=Cinzel:wght@400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&family=Pinyon+Script&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=mwwwnqm9">
+<link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Allura&family=Great+Vibes&family=Imperial+Script&family=Italianno&family=Parisienne&family=Petit+Formal+Script&family=Amiri&family=Aref+Ruqaa&family=Noto+Nastaliq+Urdu&family=Rakkas&family=Reem+Kufi&family=Bodoni+Moda:opsz,wght@6..96,400&family=Cinzel:wght@400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&family=Pinyon+Script&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=mwwwutg5">
 <title>Sarim &amp; Tala · Monogram options</title>
 <style>
   .opts { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 18px; max-width: 1120px; margin: 44px auto 0; }
@@ -19,6 +19,7 @@
   .teal { background: #26504b; color: #e2cf9f; } .beige { background: #efe6d3; color: #26504b; }
   .white { background: #fff; color: #5d7460; } .sage { background: #8fa387; color: #fff; }
 </style>
+<link rel="stylesheet" href="css/phone.css?v=mwwwutg5">
 </head>
 <body class="nikkah">
 <section class="sec light" style="min-height:100vh">
@@ -29,11 +30,14 @@
   <h2 style="margin-top:90px">With <i>&#1589;</i> and <i>&#1578;</i></h2>
   <p class="lede" style="max-width:580px;margin:14px auto 0">Your initials as &#7779;&#257;d and t&#257;', in five styles of Arabic lettering, plus the lace oval from the wedding page.</p>
   <div class="opts" id="opts2"></div>
+  <h2 style="margin-top:90px">A clearer <i>S</i></h2>
+  <p class="lede" style="max-width:580px;margin:14px auto 0">The same lace oval with the S and T in different script fonts. Tell me a letter.</p>
+  <div class="opts" id="fonts"></div>
   <p class="other" style="margin-top:44px"><a class="btn" href="index.html">Back to the invitations</a></p>
 </section>
-<script src="js/config.js?v=mwwwnqm9"></script>
-<script src="js/monograms-ar.js?v=mwwwnqm9"></script>
-<script src="js/logo.js?v=mwwwnqm9"></script>
+<script src="js/config.js?v=mwwwutg5"></script>
+<script src="js/monograms-ar.js?v=mwwwutg5"></script>
+<script src="js/logo.js?v=mwwwutg5"></script>
 <script>
   const A = INVITE.couple.first[0], B = INVITE.couple.second[0];
   const NAMES = (INVITE.couple.first + " & " + INVITE.couple.second).toUpperCase();
@@ -90,6 +94,14 @@
 
   document.getElementById("opts").innerHTML = options.map(([name, blurb, tone, art], i) =>
     `<div class="opt ${tone}">${art}<span class="num">Option ${i + 1}</span><h3>${name}</h3><p>${blurb}</p></div>`).join("");
+</script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const fonts = [["Great Vibes", "Flowing, with a clear S"], ["Petit Formal Script", "Classic copperplate; the most readable"], ["Italianno", "Light and slender"], ["Parisienne", "Soft and rounded"], ["Alex Brush", "Brushed and relaxed"], ["Allura", "Smooth, modern script"], ["Imperial Script", "Formal and ornate"], ["Pinyon Script", "What it was before"]];
+    document.getElementById("fonts").innerHTML = fonts.map(([f, note], i) =>
+      '<div class="opt teal">' + Logo.svg({ variant: "lace", tone: "gold", font: f }) + '<span class="num">Font ' + "ABCDEFGH"[i] + '</span><h3>' + f + '</h3><p>' + note + '</p></div>').join("");
+    Logo.refit();
+  });
 </script>
 </body>
 </html>
