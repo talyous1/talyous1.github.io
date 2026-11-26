@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&family=Pinyon+Script&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="img/envelope.jpg">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/wedding.css">
+<title>Sarim &amp; Tala · The Wedding</title>
+<meta name="theme-color" content="#8a9a80">
+</head>
+<body class="wedding v2 locked" data-event="wedding">
+
+<!-- The envelope: four paper flaps and a wax seal -->
+<div id="post" class="real">
+  <div class="env2">
+    <div class="flap f-bottom"></div>
+    <div class="flap f-top"></div>
+    <div class="flap f-left"></div>
+    <div class="flap f-right"></div>
+  </div>
+  <button class="seal" type="button" aria-label="Break the seal to open your invitation">
+    <img src="img/seal.webp" alt="">
+    <span data-logo="seal"></span>
+  </button>
+  <p class="hint">Tap the seal to open</p>
+</div>
+
+<nav class="topnav">
+  <a class="brand" href="index.html">S <i>&amp;</i> T</a>
+  <span><a href="#details">Details</a><a href="#day">The day</a><a href="#rsvp">RSVP</a></span>
+</nav>
+
+<header class="hero2">
+  <div class="card">
+    <svg class="cap" viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0 101V62Q0 34 40 34H290C380 34 420 2 500 2s120 32 210 32h250q40 0 40 28v39Z"/></svg>
+    <div class="card-in">
+      <p class="eyebrow">Together with their families<br>invite you to the wedding of</p>
+      <h1 class="names2"><span data-bind="first"></span> <em>&amp;</em> <span data-bind="second"></span></h1>
+      <p class="when" data-bind="dateDMY"></p>
+      <p class="where"><span data-bind="venue"></span> · Mississauga</p>
+      <a class="btn" href="#rsvp">You're invited</a>
+      <div class="scene"><img src="img/painting.jpg" alt="A painted garden with a white pavilion beside a still lake" data-par="-0.05"></div>
+    </div>
+  </div>
+  <img class="rose l" src="img/roses.webp" alt="" data-par="0.07">
+  <img class="rose r" src="img/roses.webp" alt="" data-par="0.1">
+</header>
+
+<section class="sec light" id="details">
+  <div class="wrap wide">
+    <div class="facts rv">
+      <div><svg class="ico" viewBox="0 0 24 24"><circle cx="9" cy="13" r="5.5"/><circle cx="15" cy="13" r="5.5"/></svg><span class="label">The date</span><p data-bind="dateLong"></p></div>
+      <div><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3.5 2"/></svg><span class="label">The hour</span><p data-bind="time"></p></div>
+      <div><svg class="ico" viewBox="0 0 24 24"><path d="M12 21.5s-6.5-6-6.5-11a6.5 6.5 0 0 1 13 0c0 5-6.5 11-6.5 11Z"/><circle cx="12" cy="10.5" r="2.2"/></svg><span class="label">The venue</span><p data-bind="venue"></p><p class="small" data-bind="address"></p></div>
+      <div><svg class="ico" viewBox="0 0 24 24"><path d="M12 20.5S4 15.5 4 9.8A4.3 4.3 0 0 1 12 7.6a4.3 4.3 0 0 1 8 2.2c0 5.7-8 10.700-8 10.700Z"/></svg><span class="label">Good company</span><p>Family &amp; friends</p></div>
+    </div>
+    <div class="btns rv">
+      <button class="btn" id="cal" type="button">Add to calendar</button>
+      <a class="btn ghost" id="map" target="_blank" rel="noopener">Get directions</a>
+    </div>
+
+    <div class="heading rv" id="day"><h2>The Day</h2><p class="eyebrow">An evening of dinner and celebration</p></div>
+    <div class="dayline rv"></div>
+  </div>
+</section>
+
+<section class="sec dark candle-sec" id="table">
+  <div class="lace" aria-hidden="true"></div>
+  <div class="warm"></div>
+  <div class="wrap">
+    <p class="eyebrow rv">Before you take your seat</p>
+    <h2 class="rv">Light the <i>candles</i></h2>
+    <div class="candles rv">
+      <button class="candle" style="--h:150px" aria-pressed="false" aria-label="Candle 1"><span class="wax"></span><span class="flame"></span></button>
+      <button class="candle" style="--h:215px" aria-pressed="false" aria-label="Candle 2"><span class="wax"></span><span class="flame"></span></button>
+      <button class="candle" style="--h:255px" aria-pressed="false" aria-label="Candle 3"><span class="wax"></span><span class="flame"></span></button>
+      <button class="candle" style="--h:190px" aria-pressed="false" aria-label="Candle 4"><span class="wax"></span><span class="flame"></span></button>
+      <button class="candle" style="--h:130px" aria-pressed="false" aria-label="Candle 5"><span class="wax"></span><span class="flame"></span></button>
+    </div>
+    <div class="runner"></div>
+    <p class="toast" aria-live="polite">Tap each candle to light it.</p>
+  </div>
+</section>
+
+<section class="sec light panels">
+  <div class="wrap wide">
+    <div class="panel sage rv" data-countdown>
+      <div>
+        <h3>Counting down</h3>
+        <p class="sub">Until we celebrate together</p>
+        <p class="it" data-bind="dateLong"></p>
+      </div>
+      <div class="countdown"></div>
+    </div>
+
+    <div class="panel cream rv" id="rsvp">
+      <img class="rose corner" src="img/roses.webp" alt="">
+      <div class="panel-head">
+        <h3>RSVP</h3>
+        <p class="sub">Kindly reply</p>
+        <p class="it">We can't wait to celebrate with you.</p>
+      </div>
+      <form class="rsvp">
+        <div><label for="name">Your name</label><input id="name" name="name" type="text" required autocomplete="name"></div>
+        <fieldset><legend>Will you join us?</legend>
+          <div class="pills">
+            <input type="radio" name="attending" id="yes" value="yes" required><label for="yes">Joyfully accepts</label>
+            <input type="radio" name="attending" id="no" value="no"><label for="no">Regretfully declines</label>
+          </div></fieldset>
+        <div><label for="guests">Number of guests</label><input id="guests" name="guests" type="number" min="1" max="10" value="1"></div>
+        <div><label for="note">A note for the couple</label><textarea id="note" name="note"></textarea></div>
+        <button class="btn" type="submit">Send your RSVP</button>
+      </form>
+      <div class="thanks"><b></b><p></p></div>
+    </div>
+  </div>
+</section>
+
+<footer class="painted">
+  <img class="bg" src="img/painting.jpg" alt="" data-par="-0.08">
+  <div class="in">
+    <div class="mono rv" data-logo="lace"></div>
+    <p class="script rv" data-bind="couple"></p>
+    <p class="eyebrow rv" data-bind="dateDMY"></p>
+    <p class="other rv"><a class="btn glass" href="nikkah.html">Open the nikkah invitation</a></p>
+  </div>
+</footer>
+
+<script src="js/config.js"></script>
+<script src="js/logo.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

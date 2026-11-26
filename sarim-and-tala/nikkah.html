@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&family=Pinyon+Script&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="img/veil.jpg">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/wedding.css">
+<link rel="stylesheet" href="css/nikkah.css">
+<title>Sarim &amp; Tala · The Nikkah</title>
+<meta name="theme-color" content="#1c3f3b">
+</head>
+<body class="nikkah v2 locked" data-event="nikkah">
+
+<!-- The veil: a photographed embroidered dupatta that guests lift -->
+<div id="veil" class="real" aria-label="Invitation cover">
+  <div class="cloth"></div>
+  <div class="v-in">
+    <div class="v-logo" data-logo="lace"></div>
+    <div class="v-names" data-bind="couple"></div>
+    <button type="button">Lift the veil</button>
+  </div>
+</div>
+
+<nav class="topnav">
+  <a class="brand" href="index.html">S <i>&amp;</i> T</a>
+  <span><a href="#verse">The verse</a><a href="#details">Details</a><a href="#rsvp">RSVP</a></span>
+</nav>
+
+<header class="hero2">
+  <div class="card">
+    <svg class="cap" viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0 101V72Q0 44 40 44H320C410 44 462 34 500 2c38 32 90 42 180 42h280q40 0 40 28v29Z"/></svg>
+    <div class="card-in">
+      <p class="bismillah" lang="ar" dir="rtl">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
+      <p class="eyebrow">Together with their families<br>request the honour of your presence at the nikkah of</p>
+      <h1 class="names2"><span data-bind="first"></span> <em>&amp;</em> <span data-bind="second"></span></h1>
+      <p class="when" data-bind="dateDMY"></p>
+      <p class="where" data-bind="venue"></p>
+      <a class="btn" href="#rsvp">You're invited</a>
+      <div class="scene"><img src="img/garden.jpg" alt="A painted garden with a white marble pavilion reflected in a long pool" data-par="-0.05"></div>
+    </div>
+  </div>
+  <img class="rose l" src="img/peonies.webp" alt="" data-par="0.07">
+  <img class="rose r" src="img/peonies.webp" alt="" data-par="0.1">
+</header>
+
+<section class="sec light framed" id="verse">
+  <div class="wrap">
+    <svg class="mandala" aria-hidden="true"></svg>
+    <p class="verse-ar rv" lang="ar" dir="rtl">وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً</p>
+    <div class="rule rv"><span></span></div>
+    <p class="verse-en rv">&ldquo;And of His signs is that He created for you spouses from among yourselves, that you may find tranquility in them; and He placed between you affection and mercy.&rdquo;</p>
+    <p class="eyebrow rv">Surah Ar-Rum · 30:21</p>
+  </div>
+</section>
+
+<section class="sec dark" id="details">
+  <div class="lace" aria-hidden="true"></div>
+  <div class="wrap wide">
+    <div class="facts rv">
+      <div><svg class="ico" viewBox="0 0 24 24"><circle cx="9" cy="13" r="5.5"/><circle cx="15" cy="13" r="5.5"/></svg><span class="label">The date</span><p data-bind="dateLong"></p></div>
+      <div><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3.5 2"/></svg><span class="label">The hour</span><p data-bind="time"></p></div>
+      <div><svg class="ico" viewBox="0 0 24 24"><path d="M12 21.5s-6.5-6-6.5-11a6.5 6.5 0 0 1 13 0c0 5-6.5 11-6.5 11Z"/><circle cx="12" cy="10.5" r="2.2"/></svg><span class="label">The venue</span><p data-bind="venue"></p><p class="small" data-bind="address"></p></div>
+      <div><svg class="ico" viewBox="0 0 24 24"><path d="M12 20.500S4 15.500 4 9.800A4.300 4.300 0 0 1 12 7.600a4.300 4.300 0 0 1 8 2.200c0 5.700-8 10.700-8 10.700Z"/></svg><span class="label">Good company</span><p>Family &amp; friends</p></div>
+    </div>
+    <div class="btns rv">
+      <button class="btn" id="cal" type="button">Add to calendar</button>
+      <a class="btn ghost" id="map" target="_blank" rel="noopener">Get directions</a>
+    </div>
+
+    <div class="heading rv" id="day"><h2>The Evening</h2><p class="eyebrow">In shaa Allah</p></div>
+    <div class="dayline rv"></div>
+  </div>
+</section>
+
+<section class="sec light panels">
+  <div class="wrap wide">
+    <div class="panel sage rv" data-countdown>
+      <div>
+        <h3>Counting down</h3>
+        <p class="sub">In shaa Allah, until the nikkah</p>
+        <p class="it" data-bind="dateLong"></p>
+      </div>
+      <div class="countdown"></div>
+    </div>
+
+    <div class="panel cream rv" id="rsvp">
+      <img class="rose corner" src="img/peonies.webp" alt="">
+      <div class="panel-head">
+        <h3>RSVP</h3>
+        <p class="sub">Kindly reply</p>
+        <p class="it">Your presence and your duas mean the world to us.</p>
+      </div>
+      <form class="rsvp">
+        <div><label for="name">Your name</label><input id="name" name="name" type="text" required autocomplete="name"></div>
+        <fieldset><legend>Will you join us?</legend>
+          <div class="pills">
+            <input type="radio" name="attending" id="yes" value="yes" required><label for="yes">Joyfully accepts</label>
+            <input type="radio" name="attending" id="no" value="no"><label for="no">Regretfully declines</label>
+          </div></fieldset>
+        <div><label for="guests">Number of guests</label><input id="guests" name="guests" type="number" min="1" max="10" value="1"></div>
+        <div><label for="note">A dua or a note for the couple</label><textarea id="note" name="note"></textarea></div>
+        <button class="btn" type="submit">Send your RSVP</button>
+      </form>
+      <div class="thanks"><b></b><p></p></div>
+    </div>
+  </div>
+</section>
+
+<footer class="painted">
+  <img class="bg" src="img/garden.jpg" alt="" data-par="-0.08">
+  <div class="in">
+    <div class="mono rv" data-logo="lace"></div>
+    <p class="script rv" data-bind="couple"></p>
+    <p class="eyebrow rv" data-bind="dateDMY"></p>
+    <p class="other rv"><a class="btn glass" href="wedding.html">Open the wedding invitation</a></p>
+  </div>
+</footer>
+
+<script src="js/config.js"></script>
+<script src="js/logo.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

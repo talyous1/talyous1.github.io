@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&family=Pinyon+Script&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<title>Sarim &amp; Tala · Monogram</title>
+</head>
+<body class="nikkah">
+<section class="sec light" style="min-height:100vh">
+  <p class="eyebrow">The monogram</p>
+  <h2>Sarim <i>&amp;</i> Tala</h2>
+  <p class="lede" style="max-width:560px;margin:14px auto 0">A script S resting on a tall serif T, framed by a pointed arch and an eight-point star. Each button saves a transparent PNG.</p>
+  <div class="sheet" id="sheet"></div>
+  <p class="other" style="margin-top:44px"><a class="btn" href="index.html">Back to the invitations</a></p>
+</section>
+<script src="js/config.js"></script>
+<script src="js/logo.js"></script>
+<script>
+  const tiles = [
+    ["arch", "#e2cf9f", "#26504b", "Gold on teal"], ["arch", "#26504b", "#efe6d3", "Teal on beige"],
+    ["arch", "#5d7460", "#ffffff", "Sage on white"], ["arch", "#ffffff", "#8fa387", "White on sage"],
+    ["seal", "#e2cf9f", "#26504b", "Seal gold"], ["seal", "#26504b", "#efe6d3", "Seal teal"],
+    ["seal", "#5d7460", "#ffffff", "Seal sage"], ["seal", "#ffffff", "#8fa387", "Seal white"]
+  ];
+  const sheet = document.getElementById("sheet");
+  tiles.forEach(([variant, color, bg, name]) => {
+    const t = document.createElement("div");
+    t.className = "tile";
+    t.style.cssText = "background:" + bg + ";color:" + color + ";border:1px solid rgba(0,0,0,.08)";
+    t.innerHTML = Logo.svg({ variant }) + '<button class="btn" type="button" style="border-color:currentColor">' + name + '</button>';
+    t.querySelector("button").onclick = async () => {
+      const a = document.createElement("a");
+      a.href = await Logo.png({ variant, color });
+      a.download = "sarim-tala-" + name.toLowerCase().replace(/[^a-z]+/g, "-") + ".png";
+      a.click();
+    };
+    sheet.appendChild(t);
+  });
+</script>
+</body>
+</html>
