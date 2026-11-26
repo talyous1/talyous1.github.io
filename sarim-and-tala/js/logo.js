@@ -36,8 +36,8 @@
   // The lace oval: an ornate lace-work oval from Canva (img/lace-oval.webp) with the woven initials over it
   function laceOval(i) {
     return `<div class="logo logo-lace" role="img" aria-label="${i.a} and ${i.b} monogram">
-      <img src="img/lace-oval.webp" alt="">
-      <svg viewBox="0 0 300 300">${woven(i, 108, 192, 160, 216, 160, 8)}</svg>
+      <span class="ring"></span>
+      <svg viewBox="0 0 300 300">${woven(i, 116, 163, 141, 176, 76, 5)}</svg>
     </div>`;
   }
 

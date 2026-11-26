@@ -121,5 +121,5 @@ footer.painted .other { margin-top: 30px; }
   #post.real .hint { top: calc(51.6% + clamp(86px, 21vmin, 140px)); }
 }
 
-/* champagne letters so they stay readable where they cross the white lace */
-footer.painted .mono { color: #ecdcae; }
+/* the lace oval and the letters share one colour */
+footer.painted .mono { color: #fffdf6; }
