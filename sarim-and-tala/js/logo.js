@@ -33,11 +33,14 @@
       <text x="${sx}" y="${sy}" ${f} fill="currentColor">${i.a}</text>`;
   }
 
-  // The lace oval: an ornate lace-work oval from Canva (img/lace-oval.webp) with the woven initials over it
+  // The lace oval: the lace oval (img/lace-oval.webp), drawn inside the SVG and tinted to match the letters with the woven initials over it
   function laceOval(i) {
     return `<div class="logo logo-lace" role="img" aria-label="${i.a} and ${i.b} monogram">
-      <span class="ring"></span>
-      <svg viewBox="0 0 300 300">${woven(i, 116, 163, 141, 176, 76, 5)}</svg>
+      <svg viewBox="0 0 300 300">
+        <defs><filter id="lace${uid + 1}" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feFlood flood-color="currentColor" result="ink"/><feComposite in="ink" in2="SourceAlpha" operator="in"/></filter></defs>
+        <image href="img/lace-oval.webp" x="0" y="0" width="300" height="300" filter="url(#lace${uid + 1})"/>
+        ${woven(i, 116, 163, 141, 176, 76, 5)}
+      </svg>
     </div>`;
   }
 

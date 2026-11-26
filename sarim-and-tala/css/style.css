@@ -288,7 +288,6 @@ body.gate { background: #1c3f3b; }
 
 /* ---------- lace oval monogram: real lace frame + woven initials ---------- */
 .logo-lace { position: relative; display: block; aspect-ratio: 1; }
-.logo-lace img { width: 100%; height: 100%; display: block; }
 .logo-lace svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 1px 2px rgba(20,25,15,.6)) drop-shadow(0 0 10px rgba(20,25,15,.35)); }
 .opt .logo-lace { max-width: 240px; height: 240px; margin: 0 auto 14px; }
 .opt .logo-lace svg { max-width: none; height: 100%; margin: 0; }
@@ -296,7 +295,6 @@ footer.painted .mono { width: min(440px, 88vw); margin: -34px auto -40px; }
 #veil.real .v-logo { width: clamp(230px, 52vw, 340px); margin: -30px 0 -40px; }
 .medallion .logo-seal circle { display: none; }
 /* the lace oval is drawn as a mask, so it always takes the same colour as the letters */
-.logo-lace .ring { position: absolute; inset: 0; background: currentColor; -webkit-mask: url(../img/lace-oval.webp) center / contain no-repeat; mask: url(../img/lace-oval.webp) center / contain no-repeat; }
 .logo-lace svg { filter: drop-shadow(0 1px 2px rgba(20,25,15,.45)); }
 /* front door: the lace oval monogram between the two invitations */
 .medallion.lace { width: clamp(130px, 17vw, 200px); height: auto; top: 10px; padding: 0; border-radius: 0; background: none; box-shadow: none; color: #fbf3df; filter: drop-shadow(0 4px 14px rgba(0,0,0,.45)); }

@@ -52,11 +52,6 @@
     if (map) { if (E.mapUrl) map.href = E.mapUrl; else map.remove(); }
   }
 
-  /* ---------- the two maps ---------- */
-  $$("[data-map]").forEach((el) => {
-    fetch("img/map-" + el.dataset.map + ".svg").then((r) => (r.ok ? r.text() : "")).then((svg) => { el.innerHTML = svg; }).catch(() => {});
-  });
-
   /* ---------- scroll reveals ---------- */
   const io = new IntersectionObserver((es) => es.forEach((e) => {
     if (e.isIntersecting) { e.target.classList.add("in", "grow"); io.unobserve(e.target); }
