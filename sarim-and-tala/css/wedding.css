@@ -124,6 +124,6 @@ footer.painted .other { margin-top: 30px; }
 /* the lace oval and the letters share one colour */
 footer.painted .mono { color: #fffdf6; }
 
-/* the wax seal carries the lace oval too, pressed into the wax */
-#post.real .seal .logo-lace { inset: 16%; width: 68%; height: 68%; }
-#post.real .seal .logo-lace svg { filter: none; }
+/* the wax seal: the woven initials inside a pressed circular border */
+#post.real .seal .logo { inset: 20.500%; width: 59%; }
+#post.real .seal .logo circle { display: inline; }
