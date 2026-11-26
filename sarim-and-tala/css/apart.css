@@ -70,3 +70,11 @@
   .panel.cream.gifts { grid-template-columns: 1fr; padding-bottom: 30px; gap: 12px; }
   .swatches { justify-content: flex-start; }
 }
+
+/* the two cities section on a dark band (wedding), under the lace hem */
+.v2 .sec.dark.apart { padding-top: clamp(130px, 19vw, 220px); padding-bottom: clamp(80px, 12vw, 140px); }
+.sec.dark.apart .cameo .script { color: #f3dfae; }
+.sec.dark.apart .miles b { color: inherit; }
+.sec.dark.apart .stitch .thread-line { stroke: #ecdcae; }
+.sec.dark.apart .stitch .heart { fill: #ecdcae; stroke: none; }
+.sec.dark.apart .cameo .map { box-shadow: 0 0 0 1px #d8c48e, 0 0 0 8px #fffdf8, 0 0 0 9px #d8c48e, 0 24px 38px rgba(20,30,18,.4); }
