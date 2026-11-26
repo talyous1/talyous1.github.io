@@ -62,6 +62,7 @@
   const cd = $(".countdown");
   if (cd && when) {
     const tick = () => {
+      if (window.__cdHold) { setTimeout(tick, 250); return; }   // motion.js is counting the numbers up
       let s = Math.floor((when - Date.now()) / 1000);
       if (s <= 0) { cd.closest("[data-countdown]")?.remove(); return; }
       const parts = [Math.floor(s / 86400), Math.floor(s / 3600) % 24, Math.floor(s / 60) % 60, s % 60];

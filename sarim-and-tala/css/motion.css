@@ -1,0 +1,65 @@
+/* =====================================================================
+   MOTION — light scroll animations for the card layout.
+   Nothing here adds length to the page; things simply respond as you scroll.
+   Every rule sits under .motion, which motion.js only adds when the
+   visitor hasn't asked their device to reduce motion.
+   ===================================================================== */
+
+/* ---------- tied to scroll position ---------- */
+/* the painting in the card drifts closer and the flowers part as you scroll away */
+.motion .hero2 .scene img { scale: calc(1 + var(--out, 0) * .16); }
+.motion .hero2 .rose.l { translate: calc(var(--out, 0) * -46px) var(--py, 0px); rotate: calc(-10deg - var(--out, 0) * 9deg); }
+.motion .hero2 .rose.r { translate: calc(var(--out, 0) * 46px) var(--py, 0px); rotate: calc(10deg + var(--out, 0) * 9deg); }
+.motion .hero2 .rose { animation: sway 7s ease-in-out infinite; transform-origin: 30% 90%; }
+.motion .hero2 .rose.r { animation-delay: -3.2s; }
+@keyframes sway { 50% { transform: rotate(1.5deg); } }
+
+/* the lace hem unrolls as its section arrives */
+.motion .sec > .lace { clip-path: inset(0 0 calc((1 - var(--in, 1)) * 100%) 0); }
+
+/* the closing painting settles back while the monogram comes forward */
+.motion footer.painted .bg { scale: calc(1.3 - var(--in, 1) * .27); }
+.motion footer.painted .mono .logo-lace { scale: calc(.84 + var(--in, 1) * .16); transform-origin: 50% 0; }
+
+/* the verse lights up word by word */
+.motion .verse-ar .w { opacity: .14; transition: opacity .7s ease; }
+.motion .verse-ar .w.lit { opacity: 1; }
+
+/* a gold thread stitches its way down the edge of the page */
+.thread { position: fixed; left: 13px; top: 0; bottom: 0; width: 2px; z-index: 60; pointer-events: none; transition: opacity .8s; }
+.locked .thread { opacity: 0; }
+.thread i { display: block; position: relative; width: 2px; height: calc(var(--page, 0) * 100%); background: repeating-linear-gradient(var(--accent-soft, #cdb98a) 0 7px, transparent 7px 12px); }
+.thread i::after { content: ""; position: absolute; left: -3px; bottom: -4px; width: 8px; height: 8px; background: var(--accent-soft, #cdb98a); transform: rotate(45deg); box-shadow: 0 0 8px rgba(255,235,170,.8); }
+@media (max-width: 700px) { .thread { display: none; } }
+
+/* ---------- played once, when a piece scrolls into view ---------- */
+/* the little icons draw themselves */
+.motion .ico * { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1.5s ease; transition-delay: calc(.25s + var(--i, 0) * .14s); }
+.motion .in .ico * { stroke-dashoffset: 0; }
+
+/* facts and the evening's timeline arrive one after another */
+.motion .facts > div, .motion .dayline > div { opacity: 0; translate: 0 20px; transition: opacity .9s ease, translate .9s cubic-bezier(.2,.7,.2,1); transition-delay: calc(var(--i, 0) * .13s); }
+.motion .facts.in > div, .motion .dayline.in > div { opacity: 1; translate: 0 0; }
+.motion .facts > div:nth-child(2), .motion .dayline > div:nth-child(2) { --i: 1; }
+.motion .facts > div:nth-child(3), .motion .dayline > div:nth-child(3) { --i: 2; }
+.motion .facts > div:nth-child(4), .motion .dayline > div:nth-child(4) { --i: 3; }
+
+/* heading rules extend outwards from the words */
+.motion .heading h2::before, .motion .heading h2::after { scale: 0 1; transition: scale 1.3s cubic-bezier(.2,.7,.2,1) .25s; }
+.motion .heading h2::before { transform-origin: 100% 50%; }
+.motion .heading h2::after { transform-origin: 0 50%; }
+.motion .heading.in h2::before, .motion .heading.in h2::after { scale: 1 1; }
+
+/* panels settle into place, and the flowers swing in at the corner */
+.motion .panel.rv { transform: translateY(44px) rotate(-1.1deg); }
+.motion .panel.rv.in { transform: none; }
+.motion .panel .rose.corner { opacity: 0; rotate: -46deg; transform-origin: 20% 90%; transition: rotate 1.5s cubic-bezier(.2,.8,.2,1) .45s, opacity 1s ease .45s; }
+.motion .panel.in .rose.corner { opacity: 1; rotate: -14deg; }
+
+/* candles rise onto the table one by one */
+.motion .candles.rv .candle { opacity: 0; translate: 0 26px; transition: opacity .8s ease, translate .9s cubic-bezier(.2,.8,.2,1), transform .4s; }
+.motion .candles.rv.in .candle { opacity: 1; translate: 0 0; }
+.motion .candles .candle:nth-child(2) { transition-delay: .12s, .12s, 0s; }
+.motion .candles .candle:nth-child(3) { transition-delay: .24s, .24s, 0s; }
+.motion .candles .candle:nth-child(4) { transition-delay: .36s, .36s, 0s; }
+.motion .candles .candle:nth-child(5) { transition-delay: .48s, .48s, 0s; }
