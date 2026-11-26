@@ -49,3 +49,24 @@
   .cameo figcaption { margin-top: 20px; }
   .between .miles { margin-top: -6px; }
 }
+
+/* =====================================================================
+   GOOD TO KNOW — what to wear (nikkah) and the gifts note
+   ===================================================================== */
+.swatches { display: flex; gap: clamp(18px, 3vw, 30px); align-items: flex-start; }
+.swatches > div { display: grid; grid-template-columns: repeat(3, 38px); gap: 10px; }
+.swatches > .no { grid-template-columns: repeat(2, 38px); padding-left: clamp(18px, 3vw, 30px); border-left: 1px solid rgba(0,0,0,.12); }
+.swatches i { position: relative; display: block; width: 38px; height: 38px; border-radius: 50%; background: var(--c); box-shadow: inset 0 0 0 1px rgba(0,0,0,.07), inset 0 -6px 10px rgba(0,0,0,.05), 0 2px 5px rgba(0,0,0,.12); }
+.swatches .no i::after { content: ""; position: absolute; left: -4px; right: -4px; top: 50%; height: 1.5px; background: #7a4a44; transform: rotate(-45deg); }
+.swatches small { grid-column: 1 / -1; margin-top: 4px; font-family: var(--sans); font-size: 9.5px; letter-spacing: .26em; text-transform: uppercase; opacity: .8; text-align: center; }
+.panel.gifts { grid-template-columns: auto 1fr; align-items: center; }
+.panel.gifts .ico { width: 46px; height: 46px; margin: 0; }
+.nikkah.v2 .panel.gifts .ico { stroke: #2f5f59; }
+.motion .swatches i { scale: 0; transition: scale .6s cubic-bezier(.3,1.6,.5,1); transition-delay: calc(.35s + var(--n, 0) * 70ms); }
+.motion .panel.in .swatches i { scale: 1; }
+.swatches i:nth-of-type(2) { --n: 1; } .swatches i:nth-of-type(3) { --n: 2; } .swatches i:nth-of-type(4) { --n: 3; } .swatches i:nth-of-type(5) { --n: 4; } .swatches i:nth-of-type(6) { --n: 5; }
+.swatches .no i { --n: 7; } .swatches .no i:nth-of-type(2) { --n: 8; }
+@media (max-width: 700px) {
+  .panel.cream.gifts { grid-template-columns: 1fr; padding-bottom: 30px; gap: 12px; }
+  .swatches { justify-content: flex-start; }
+}
