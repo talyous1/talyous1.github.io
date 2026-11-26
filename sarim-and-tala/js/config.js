@@ -37,7 +37,7 @@ window.INVITE = {
   },
 
   rsvp: {
-    // Paste a form endpoint (e.g. a Formspree URL) and replies will be sent there.
+    // Paste the Google Apps Script web app URL here (see rsvp/google-apps-script.gs) and replies go to your Google Sheet.
     // While this is empty, replies are only saved in the guest's own browser.
     endpoint: ""
   }

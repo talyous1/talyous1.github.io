@@ -272,7 +272,8 @@
     const coming = data.attending === "yes";
     try { localStorage.setItem("rsvp-" + key, JSON.stringify(data)); } catch (_) {}
     if (INVITE.rsvp.endpoint) {
-      try { await fetch(INVITE.rsvp.endpoint, { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify(data) }); } catch (_) {}
+      // sent as plain text so a Google Apps Script web app accepts it without extra setup
+      try { await fetch(INVITE.rsvp.endpoint, { method: "POST", mode: "no-cors", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(data) }); } catch (_) {}
     }
     $(".thanks b").textContent = coming ? "See you there" : "You'll be missed";
     $(".thanks p").textContent = coming
