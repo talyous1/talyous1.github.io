@@ -38,7 +38,6 @@ window.INVITE = {
 
   rsvp: {
     // Paste the Google Apps Script web app URL here (see rsvp/google-apps-script.gs) and replies go to your Google Sheet.
-    // While this is empty, replies are only saved in the guest's own browser.
-    endpoint: ""
+    endpoint: "https://script.google.com/macros/s/AKfycbx7XKDtvk2ZEawplCimpkWbcQDUW3zIZ7eNa0Us6x0qQmrgvJHPpnmpRKepQl6sdZkMvQ/exec"
   }
 };
