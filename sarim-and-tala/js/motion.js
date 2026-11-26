@@ -47,7 +47,9 @@
     }
     if (stitch) {
       const r = stitch.getBoundingClientRect();
-      const p = clamp((H * 0.82 - r.top) / (H * 0.45));
+      const p = clamp((H * 0.92 - (r.top + r.height * 0.3)) / (H * 0.42));
+      if (!line.getAttribute("d")) return;
+      heart.dataset.moved = "1";
       reveal.style.strokeDashoffset = (1 - p).toFixed(3);
       const pt = line.getPointAtLength(line.getTotalLength() * p);
       heart.setAttribute("transform", `translate(${pt.x.toFixed(1)} ${pt.y.toFixed(1)}) scale(${(0.7 + p * 0.5).toFixed(2)})`);
@@ -60,6 +62,7 @@
     if (!queued) { queued = true; requestAnimationFrame(update); }
   }, { passive: true });
   addEventListener("resize", update);
+  addEventListener("stitch", update);
   update();
 
   if (charm) {

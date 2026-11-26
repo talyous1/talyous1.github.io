@@ -52,6 +52,36 @@
     if (map) { if (E.mapUrl) map.href = E.mapUrl; else map.remove(); }
   }
 
+  /* ---------- the stitched line between the two maps ---------- */
+  const route = $(".route");
+  const joinMaps = () => {
+    const svg = $(".stitch", route), her = $(".cameo.her .map", route), him = $(".cameo.him .map", route);
+    if (!svg || !her || !him) return;
+    const R = route.getBoundingClientRect(), a = her.getBoundingClientRect(), b = him.getBoundingClientRect();
+    if (!a.width || !b.width) return;
+    const rim = 7;                                           // the ivory ring around each map; the line tucks just under it
+    const A = { x: a.left + a.width / 2 - R.left, y: a.top + a.height / 2 - R.top, r: a.width / 2 + rim };
+    const B = { x: b.left + b.width / 2 - R.left, y: b.top + b.height / 2 - R.top, r: b.width / 2 + rim };
+    const dx = B.x - A.x, dy = B.y - A.y, d = Math.hypot(dx, dy) || 1;
+    let px = dy / d, py = -dx / d; if (py > 0) { px = -px; py = -py; }      // bow the line upwards
+    const bend = Math.min(70, d * 0.2), C = { x: (A.x + B.x) / 2 + px * bend, y: (A.y + B.y) / 2 + py * bend };
+    const edge = (P) => { const vx = C.x - P.x, vy = C.y - P.y, v = Math.hypot(vx, vy) || 1; return [P.x + (vx / v) * P.r, P.y + (vy / v) * P.r]; };
+    const [sx, sy] = edge(A), [ex, ey] = edge(B);
+    const path = `M${sx.toFixed(1)} ${sy.toFixed(1)}Q${C.x.toFixed(1)} ${C.y.toFixed(1)} ${ex.toFixed(1)} ${ey.toFixed(1)}`;
+    svg.setAttribute("viewBox", `0 0 ${R.width.toFixed(0)} ${R.height.toFixed(0)}`);
+    $(".thread-line", svg).setAttribute("d", path);
+    $(".reveal", svg).setAttribute("d", path);
+    const heart = $(".heart", svg);
+    if (!heart.dataset.moved) heart.setAttribute("transform", `translate(${ex.toFixed(1)} ${ey.toFixed(1)})`);
+    dispatchEvent(new Event("stitch"));
+  };
+  if (route) {
+    joinMaps();
+    addEventListener("load", joinMaps); addEventListener("resize", joinMaps);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(joinMaps);
+    if (window.ResizeObserver) new ResizeObserver(joinMaps).observe(route);
+  }
+
   /* ---------- scroll reveals ---------- */
   const io = new IntersectionObserver((es) => es.forEach((e) => {
     if (e.isIntersecting) { e.target.classList.add("in", "grow"); io.unobserve(e.target); }
