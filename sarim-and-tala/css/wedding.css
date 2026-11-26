@@ -120,3 +120,6 @@ footer.painted .other { margin-top: 30px; }
   #post.real .seal { left: 50.4%; top: 51.6%; }
   #post.real .hint { top: calc(51.6% + clamp(86px, 21vmin, 140px)); }
 }
+
+/* champagne letters so they stay readable where they cross the white lace */
+footer.painted .mono { color: #ecdcae; }
