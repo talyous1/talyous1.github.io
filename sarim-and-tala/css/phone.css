@@ -87,7 +87,8 @@ button { -webkit-appearance: none; appearance: none; }
 
   /* the veil and the envelope */
   #veil.real .v-in { margin-top: -6vh; padding: 28px 24px 22px; }
-  #veil .v-names { font-size: clamp(44px, 13vw, 60px); }
+  #veil .v-names { font-size: clamp(44px, 13vw, 60px); margin-top: 6px; }
+  #veil.real .v-logo { width: clamp(190px, 54vw, 250px); }
   #post.real .seal { width: clamp(130px, 38vw, 170px); }
   #post.real .hint, #veil button { font-size: 11px; letter-spacing: .3em; }
 

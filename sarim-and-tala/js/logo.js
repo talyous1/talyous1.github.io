@@ -67,6 +67,7 @@
   function laceOval(i, tone, fontName) {
     // the oval comes pre-coloured (ivory or gold) so no browser has to tint it
     const gold = tone ? tone === "gold" : document.body.classList.contains("nikkah") && !document.body.classList.contains("gate");
+    if (!fontName) return `<div class="logo logo-lace"><img src="img/monogram-${gold ? "gold" : "ivory"}.webp" alt="${i.a} and ${i.b} monogram"></div>`;
     return `<div class="logo logo-lace" role="img" aria-label="${i.a} and ${i.b} monogram">
       <svg viewBox="0 0 300 300">
         <image href="img/lace-oval${gold ? "-gold" : ""}.webp" x="0" y="0" width="300" height="300"/>
@@ -82,6 +83,7 @@
     const letters =
       `<text x="${g.t[0]}" y="${g.t[1]}" text-anchor="middle" font-family="'Cormorant Garamond',serif" font-weight="300" font-size="${g.t[2]}" fill="currentColor" opacity=".55">${i.b}</text>` +
       `<text x="${g.s[0]}" y="${g.s[1]}" text-anchor="middle" font-family="'Pinyon Script',cursive" font-size="${g.s[2]}" fill="currentColor">${i.a}</text>`;
+    if (o.variant === "seal" && !o.font) return `<div class="logo logo-seal"><img src="img/monogram-seal.webp" alt="${initials().a} and ${initials().b} monogram"></div>`;
     if (o.variant === "seal") {
       return `<svg class="logo logo-seal" viewBox="0 0 200 200" role="img" aria-label="${i.a} and ${i.b} monogram">
         <circle cx="100" cy="100" r="92" fill="none" stroke="currentColor" stroke-width="1.2"/>
