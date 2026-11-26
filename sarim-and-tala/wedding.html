@@ -6,12 +6,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Amiri&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&family=Pinyon+Script&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Amiri&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Mono:wght@300;400&family=Jost:wght@300;400;500&family=Pinyon+Script&display=swap" rel="stylesheet">
 <link rel="preload" as="image" href="img/envelope.jpg">
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/wedding.css">
 <title>Sarim &amp; Tala · The Wedding</title>
 <meta name="theme-color" content="#8a9a80">
+<link rel="stylesheet" href="css/walk.css">
 </head>
 <body class="wedding v2 locked" data-event="wedding">
 
@@ -30,26 +31,43 @@
   <p class="hint">Tap the seal to open</p>
 </div>
 
-<nav class="topnav">
-  <a class="brand" href="index.html">S <i>&amp;</i> T</a>
-  <span><a href="#details">Details</a><a href="#day">The day</a><a href="#rsvp">RSVP</a></span>
-</nav>
-
-<header class="hero2">
-  <div class="card">
-    <svg class="cap" viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0 101V62Q0 34 40 34H290C380 34 420 2 500 2s120 32 210 32h250q40 0 40 28v39Z"/></svg>
-    <div class="card-in">
-      <p class="eyebrow">Together with their families<br>invite you to the wedding of</p>
-      <h1 class="names2"><span data-bind="first"></span> <em>&amp;</em> <span data-bind="second"></span></h1>
-      <p class="when" data-bind="dateDMY"></p>
-      <p class="where"><span data-bind="venue"></span> · Mississauga</p>
-      <a class="btn" href="#rsvp">You're invited</a>
-      <div class="scene"><img src="img/painting.jpg" alt="A painted garden with a white pavilion beside a still lake" data-par="-0.05"></div>
-    </div>
+<!-- The walk: scroll to pass through a corridor of arches into the painting -->
+<section class="walk" id="walk" style="--stops:4">
+  <div class="stage">
+    <div class="far"><img src="img/painting.jpg" alt="A painted garden with a white pavilion beside a still lake"></div>
+    <div class="gate cloth" data-z="1"><div class="wall"></div><svg class="rim" viewBox="0 0 100 150" preserveAspectRatio="none" aria-hidden="true"><path d="M0 150V50A50 50 0 0 1 100 50V150Z"/><path d="M0 150V50A50 50 0 0 1 100 50V150Z" transform="translate(3.2 4) scale(.936 .955)"/></svg></div>
+    <div class="plate" data-z="1.28"><div class="wall"></div><div class="txt">
+      <p class="mono">assalamu alaikum,</p>
+      <p class="big">We&rsquo;re getting <i>married</i></p>
+      <p class="mono">and we&rsquo;d love you there</p>
+    </div></div>
+    <div class="gate paper" data-z="1.9"><div class="wall"></div><svg class="rim" viewBox="0 0 100 150" preserveAspectRatio="none" aria-hidden="true"><path d="M0 150V50A50 50 0 0 1 100 50V150Z"/><path d="M0 150V50A50 50 0 0 1 100 50V150Z" transform="translate(3.2 4) scale(.936 .955)"/></svg><img class="bloom l" src="img/roses.webp" alt=""><img class="bloom r" src="img/roses.webp" alt=""></div>
+    <div class="gate deep" data-z="2.6"><div class="wall"></div><svg class="rim" viewBox="0 0 100 150" preserveAspectRatio="none" aria-hidden="true"><path d="M0 150V50A50 50 0 0 1 100 50V150Z"/><path d="M0 150V50A50 50 0 0 1 100 50V150Z" transform="translate(3.2 4) scale(.936 .955)"/></svg></div>
+    <div class="plate" data-z="2.88"><div class="wall"></div><div class="txt">
+      <p class="caps">Together with their families</p>
+      <h1 class="names"><span data-bind="first"></span><em>&amp;</em><span data-bind="second"></span></h1>
+      <p class="caps">invite you to their wedding</p>
+    </div></div>
+    <div class="gate paper" data-z="3.5"><div class="wall"></div><svg class="rim" viewBox="0 0 100 150" preserveAspectRatio="none" aria-hidden="true"><path d="M0 150V50A50 50 0 0 1 100 50V150Z"/><path d="M0 150V50A50 50 0 0 1 100 50V150Z" transform="translate(3.2 4) scale(.936 .955)"/></svg><img class="bloom l" src="img/roses.webp" alt=""><img class="bloom r" src="img/roses.webp" alt=""></div>
+    <div class="gate cloth" data-z="4.2"><div class="wall"></div><svg class="rim" viewBox="0 0 100 150" preserveAspectRatio="none" aria-hidden="true"><path d="M0 150V50A50 50 0 0 1 100 50V150Z"/><path d="M0 150V50A50 50 0 0 1 100 50V150Z" transform="translate(3.2 4) scale(.936 .955)"/></svg></div>
+    <div class="plate" data-z="4.48"><div class="wall"></div><div class="txt">
+      <p class="mono">save the evening</p>
+      <p class="script" data-bind="weekday"></p>
+      <p class="caps" data-bind="dateDMY"></p>
+      <p class="mid" data-bind="time"></p>
+    </div></div>
+    <div class="gate paper" data-z="5.1"><div class="wall"></div><svg class="rim" viewBox="0 0 100 150" preserveAspectRatio="none" aria-hidden="true"><path d="M0 150V50A50 50 0 0 1 100 50V150Z"/><path d="M0 150V50A50 50 0 0 1 100 50V150Z" transform="translate(3.2 4) scale(.936 .955)"/></svg><img class="bloom l" src="img/roses.webp" alt=""><img class="bloom r" src="img/roses.webp" alt=""></div>
+    <div class="gate deep" data-z="5.8"><div class="wall"></div><svg class="rim" viewBox="0 0 100 150" preserveAspectRatio="none" aria-hidden="true"><path d="M0 150V50A50 50 0 0 1 100 50V150Z"/><path d="M0 150V50A50 50 0 0 1 100 50V150Z" transform="translate(3.2 4) scale(.936 .955)"/></svg></div>
+    <div class="plate" data-z="6.08"><div class="wall"></div><div class="txt">
+      <p class="mono">you&rsquo;ll find us at</p>
+      <p class="mid" data-bind="venue"></p>
+      <p class="caps" data-bind="address"></p>
+      <a class="btn" href="#rsvp">I&rsquo;ll be there</a>
+    </div></div>
+    <div class="arrive"><div class="pendant"><div class="chain"></div><div class="charm" data-logo="lace"></div></div><p class="script" data-bind="couple"></p><p class="mono">you made it. keep going</p></div>
+    <p class="walk-hint">scroll to walk in</p>
   </div>
-  <img class="rose l" src="img/roses.webp" alt="" data-par="0.07">
-  <img class="rose r" src="img/roses.webp" alt="" data-par="0.1">
-</header>
+</section>
 
 <section class="sec light" id="details">
   <div class="wrap wide">
@@ -128,11 +146,20 @@
     <p class="script rv" data-bind="couple"></p>
     <p class="eyebrow rv" data-bind="dateDMY"></p>
     <p class="other rv"><a class="btn glass" href="nikkah.html">Open the nikkah invitation</a></p>
+    <p class="stamp rv">last updated 25 nov &#9825;</p>
   </div>
 </footer>
+
+<nav class="dock" aria-label="Sections">
+  <a class="d-top" href="#walk"><i></i><span>start</span></a>
+  <a class="d-day" href="#details"><i></i><span>the day</span></a>
+  <a class="d-rsvp" href="#rsvp"><i></i><span>rsvp</span></a>
+  <button class="d-dusk" type="button" aria-pressed="false" aria-label="Switch between daytime and evening"><i></i><span>daytime</span></button>
+</nav>
 
 <script src="js/config.js"></script>
 <script src="js/logo.js"></script>
 <script src="js/main.js"></script>
+<script src="js/walk.js"></script>
 </body>
 </html>

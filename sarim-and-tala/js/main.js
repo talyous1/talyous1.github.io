@@ -112,13 +112,14 @@
     };
     const frame = (t) => {
       x.clearRect(0, 0, W, H);
-      x.fillStyle = col;
+      const dk = document.body.classList.contains("dusk") ? 1.8 : 1;
+      x.fillStyle = dk > 1 ? "#ffe9a8" : col;
       for (const p of pts) {
         const tw = Math.max(0, Math.sin(t * 0.001 * p.v + p.p)) ** 8;
         const near = clamp(1 - Math.hypot(p.x - mx, p.y - my) / 170);
-        const a = tw * 0.6 + near * near * 0.95;
+        const a = (tw * 0.6 + near * near * 0.95) * dk;
         if (a < 0.03) continue;
-        const r = p.s * (2 + near * 5 + tw * 2.5);
+        const r = p.s * (2 + near * 5 + tw * 2.5) * (dk > 1 ? 1.35 : 1);
         x.globalAlpha = Math.min(1, a);
         x.beginPath();
         x.moveTo(p.x - r, p.y); x.quadraticCurveTo(p.x, p.y, p.x, p.y - r); x.quadraticCurveTo(p.x, p.y, p.x + r, p.y);
